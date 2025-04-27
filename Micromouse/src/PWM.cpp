@@ -22,13 +22,13 @@ TCCR3A &= ~(1 << COM3B0);
 
 //  Use fast PWM mode 15 bit, top value is determined by Table 17-2 of 0x3FF (1023) 
 //  which determines the PWM frequency.
-// for Fast PWM 10bit mode # 14:
-// WGM30 =0
+// for Fast PWM 10bit mode # 15:
+// WGM30 =1
 // WGM31 =1
 // WGM32 = 1
 // WGM33 = 1
-TCCR3A |=  (1 << WGM31);
-
+TCCR3A |= (1 << WGM30);
+TCCR3A |= (1 << WGM31);
 TCCR3B |= (1 << WGM32);
 TCCR3B |= (1 << WGM33); 
 
@@ -38,8 +38,6 @@ TCCR3B |= (1 << WGM33);
 // Prescaler = 1
 // TOP value = 0x3FF = 1023 
 // PWM frequency from calculation = 1.953 kHz
-
-
 
 // set prescalar CSBits to prescaler of 64
 //CS10 =1
@@ -53,15 +51,10 @@ TCCR3B &= ~(1 << CS32);
 // duty cycle is set by dividing output compare OCR1A value by 1 + TOP value
 // the top value is (1 + OCR3A) = 1024
 //  calculate OCR3A value => OCR3A = duty cycle(fractional number) * (1 + TOP) 
-//OCR3A =  1023; //100%
-ICR3 = 99; // new TOP
-OCR3B = ICR3 / 2;
+OCR3A =  1023; //100%
+OCR3B = 0;
 }
 
-void turnOnDutyCycle(){
-    TCCR3A |= (1 << COM3B1); // Reconnect OC3B to output pin
-}
-
-void turnOffDutyCycle(){
-    TCCR3A &= ~(1 << COM3B1); // Disable OC3B output (disconnect from pin)
+void changeDutyCycle(uint16_t dutyCycle){
+    OCR3B = (dutyCycle/100) * OCR3A;
 }
