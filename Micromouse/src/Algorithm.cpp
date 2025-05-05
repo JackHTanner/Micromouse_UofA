@@ -224,7 +224,7 @@ void stop() {
 }
 
 // Check whether wall is detected using threshold of 12 cm
-int wallDetection (int reading) {
+int wallDetection (float reading) {
     if (reading <= 12.0) {
         return 1;
     }
