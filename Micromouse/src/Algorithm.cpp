@@ -88,7 +88,8 @@ void loop() {
     // of sound in air at sea level (~340 m/s).
     readingLeft = pulse_width_Left / 58.0;
 
-    delayMs(60);
+    // Delay 60 milliseconds
+    delayMs(60000);
 
     /**********Polling the front sensor**********/
 
@@ -111,7 +112,8 @@ void loop() {
     // of sound in air at sea level (~340 m/s).
     readingFront = pulse_width_Front / 58.0;
 
-    delayMs(60);
+    // Delay 60 milliseconds
+    delayMs(60000);
 
     /**********Polling the right sensor**********/
 
@@ -134,7 +136,8 @@ void loop() {
     // of sound in air at sea level (~340 m/s).
     readingRight = pulse_width_Right / 58.0;
 
-    delayMs(60);
+    // Delay 60 milliseconds
+    delayMs(60000);
 
     // Check whether a wall is detected
     // 1: Wall is detected
