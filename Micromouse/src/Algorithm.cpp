@@ -1,15 +1,6 @@
 #include "timer.h"
 #include "Arduino.h"
 
-#define leftSensorTriggerPin = 46; //PL3 
-#define leftSensorEchoPin = 47; //PL2
-
-#define frontSensorTriggerPin = 36; //PC1
-#define frontSensorEchoPin = 38; //PD7
-
-#define rightSensorTriggerPin = 23; //PA1
-#define rightSensorEchoPin = 22; //PA0
-
 unsigned long time1Left;
 unsigned long time2Left;
 unsigned long pulse_width_Left;
@@ -74,7 +65,7 @@ int wallDetection (float reading) {
     }
 }
 
-void setup() {
+void setUpPins() {
     // Setup the left sensor
 
     // Set the trigger pin to output
