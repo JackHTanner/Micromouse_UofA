@@ -1,4 +1,5 @@
 #include "timer.h"
+#include "PWM.h"
 #include "Arduino.h"
 
 unsigned long time1Left;
@@ -18,20 +19,21 @@ float readingRight;
 
 
 void goForwardAndThenStop() {
-    PORTA |= (1<<PORTA4) | (PORTA6);
-    PORTA &= ~(1<<PORTA5) | (1<<PORTA7);
+    changeDutyCycle1(1023);
+    changeDutyCycle2(1023);
+    Serial.println("Moving forward");
 
 
     // Set motor to maximimum speed
     // Both wheels spin forward at max speed
-    delayS(1);
+    //delayS(1);
     // Set motor to zero speed
     // Wheels stop spinning
 }
 
 void orientLeft() {
-    PORTA |= (1<<PORTA5) | (PORTA6);
-    PORTA &= ~(1<<PORTA4) | (1<<PORTA7);
+    changeDutyCycle1(1023);
+    changeDutyCycle2(0);
     // Set motor to half speed
     // Right wheel spins forward at half speed
     // Left wheel spins backward at half speed
@@ -39,8 +41,8 @@ void orientLeft() {
 }
 
 void orientRight() {
-    PORTA |= (1<<PORTA4) | (PORTA7);
-    PORTA &= ~(1<<PORTA5) | (1<<PORTA6);
+    changeDutyCycle1(0);
+    changeDutyCycle2(1023);
     // Set motor to half speed
     // Right wheel spins backward at half speed
     // Left sheel spins forward at half speed
@@ -48,8 +50,8 @@ void orientRight() {
 }
 
 void turnAround() {
-    PORTA |= (1<<PORTA4) | (PORTA7);
-    PORTA &= ~(1<<PORTA5) | (1<<PORTA6);
+    changeDutyCycle1(1023);
+    changeDutyCycle2(0);
     // Set motor to half speed
     // Right wheel spins backward at half speed
     // Left sheel spins forward at half speed

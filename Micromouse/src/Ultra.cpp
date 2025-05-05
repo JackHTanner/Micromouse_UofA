@@ -2,6 +2,7 @@
 #include <avr/io.h>
 #include <avr/interrupt.h>
 #include "Ultra.h"
+#include "timer.h"
 
 
 float distance0 = 0;             //stores the distance measured by the distance sensor
@@ -64,7 +65,7 @@ byte loopUltra() {
   Serial.print(" Right cm");        //print units after the distance
   Serial.println("!");           //move to the next line for clarity
 
-  delayMicroseconds(10);   //delay 50ms between each reading
+  delayMs(10000);   //delay 50ms between each reading
 
   if (distance0 < 5 && distance1 < 5 && distance2 < 5) {
     return 0b00000111; // All walls detected
@@ -81,7 +82,9 @@ byte loopUltra() {
   } else if (distance2 < 5) {
     return 0b00000001; // Right wall detected
   } else {
+  
     Serial.println("No wall detected.");
+    return 0b00000000;
   }
   
   
@@ -99,7 +102,7 @@ float getDistance1()
   
   //send out an ultrasonic pulse that's 10ms long
   PORTC |= (1 << PC1);
-  delayMicroseconds(10);
+  delayMs(10000);
   PORTC &= ~(1 << PC1);
 
   echoTime = pulseIn(38, HIGH);  // Add timeout to prevent freezing    //use the pulsein command to see how long it takes for the
@@ -119,7 +122,7 @@ float getDistance0()
   
   //send out an ultrasonic pulse that's 10ms long
   PORTL |= (1 << PL3);
-  delayMicroseconds(10);
+  delayMs(10000);
   PORTL &= ~(1 << PL3);
 
   echoTime = pulseIn(47, HIGH);  // Add timeout to prevent freezing    //use the pulsein command to see how long it takes for the
@@ -140,7 +143,7 @@ float getDistance2()
   
   //send out an ultrasonic pulse that's 10ms long
   PORTA |= (1 << PA1);
-  delayMicroseconds(10);
+  delayMs(10000);
   PORTA &= ~(1 << PA1);
 
 
