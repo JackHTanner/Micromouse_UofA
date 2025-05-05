@@ -27,6 +27,8 @@ float readingRight;
 
 
 void goForwardAndThenStop() {
+    PORTA |= (1<<PORTA4) | (PORTA6);
+    PORTA &= ~(1<<PORTA5) | (1<<PORTA7);
     // Set motor to maximimum speed
     // Both wheels spin forward at max speed
     delayS(2);
@@ -35,6 +37,8 @@ void goForwardAndThenStop() {
 }
 
 void orientLeft() {
+    PORTA |= (1<<PORTA5) | (PORTA6);
+    PORTA &= ~(1<<PORTA4) | (1<<PORTA7);
     // Set motor to half speed
     // Right wheel spins forward at half speed
     // Left wheel spins backward at half speed
@@ -42,6 +46,8 @@ void orientLeft() {
 }
 
 void orientRight() {
+    PORTA |= (1<<PORTA4) | (PORTA7);
+    PORTA &= ~(1<<PORTA5) | (1<<PORTA6);
     // Set motor to half speed
     // Right wheel spins backward at half speed
     // Left sheel spins forward at half speed
@@ -49,6 +55,8 @@ void orientRight() {
 }
 
 void turnAround() {
+    PORTA |= (1<<PORTA4) | (PORTA7);
+    PORTA &= ~(1<<PORTA5) | (1<<PORTA6);
     // Set motor to half speed
     // Right wheel spins backward at half speed
     // Left sheel spins forward at half speed
