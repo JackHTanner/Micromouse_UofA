@@ -25,6 +25,47 @@ unsigned long time2Right;
 unsigned long pulse_width_Right;
 float readingRight;
 
+void goForward() {
+    // Set motor to maximimum speed
+    // Both wheels spin backward at max speed
+}
+
+void orientLeft() {
+    // Set motor to half speed
+    // Right wheel spins forward at half speed
+    // Left wheel spins backward at half speed
+    delayS(2);
+}
+
+void orientRight() {
+    // Set motor to half speed
+    // Right wheel spins backward at half speed
+    // Left sheel spins forward at half speed
+    delayS(2);
+}
+
+void turnAround() {
+    // Set motor to half speed
+    // Right wheel spins backward at half speed
+    // Left sheel spins forward at half speed
+    delayS(4);
+}
+
+void stop() {
+    // Set motor to zero speed
+    // Wheels stop spinning 
+}
+
+// Check whether wall is detected using threshold of 12 cm
+int wallDetection (float reading) {
+    if (reading <= 6.0) {
+        return 1;
+    }
+    else {
+        return 0;
+    }
+}
+
 void setup() {
     // Setup the left sensor
 
@@ -193,45 +234,4 @@ void loop() {
 
         }
     
-}
-
-void goForward() {
-    // Set motor to maximimum speed
-    // Both wheels spin backward at max speed
-}
-
-void orientLeft() {
-    // Set motor to half speed
-    // Right wheel spins forward at half speed
-    // Left wheel spins backward at half speed
-    delayS(2);
-}
-
-void orientRight() {
-    // Set motor to half speed
-    // Right wheel spins backward at half speed
-    // Left sheel spins forward at half speed
-    delayS(2);
-}
-
-void turnAround() {
-    // Set motor to half speed
-    // Right wheel spins backward at half speed
-    // Left sheel spins forward at half speed
-    delayS(4);
-}
-
-void stop() {
-    // Set motor to zero speed
-    // Wheels stop spinning 
-}
-
-// Check whether wall is detected using threshold of 12 cm
-int wallDetection (float reading) {
-    if (reading <= 6.0) {
-        return 1;
-    }
-    else {
-        return 0;
-    }
 }
