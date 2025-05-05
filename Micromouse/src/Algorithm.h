@@ -8,6 +8,6 @@ void orientLeft();
 void orientRight();
 void turnAround();
 void stop();
-int wallDetection(int reading);
+int wallDetection(float reading);
 
 #endif
