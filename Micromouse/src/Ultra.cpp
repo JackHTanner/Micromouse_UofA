@@ -5,9 +5,9 @@
 #include "timer.h"
 
 
-float distance0 = 0;             //stores the distance measured by the distance sensor
-float distance1 = 0;             //stores the distance measured by the distance sensor
-float distance2 = 0;             //stores the distance measured by the distance sensor
+volatile int distance0 = 0;             //stores the distance measured by the distance sensor
+volatile int distance1 = 0;             //stores the distance measured by the distance sensor
+volatile int distance2 = 0;             //stores the distance measured by the distance sensor
 
 void setupUltra()
 {
@@ -16,7 +16,7 @@ void setupUltra()
     // Set the trigger pin to output
     DDRL |= (1 << DDL3);
     // Set trigger pin to low 
-    PORTL &= ~(1 << PL3);
+    //PORTL &= ~(1 << PL3);
 
     // Set the echo pin to input
     DDRL &= ~(1 << DDL2);
@@ -51,10 +51,15 @@ void setupUltra()
 
 byte loopUltra() {
  
-  distance0 = getDistance0();   //variable to store the distance measured by the sensor
-  distance1 = getDistance1();   //variable to store the distance measured by the sensor
-  distance2 = getDistance2();   //variable to store the distance measured by the sensor
+ // distance0 = getDistance0();   //variable to store the distance measured by the sensor
+  //distance1 = getDistance1();   //variable to store the distance measured by the sensor
+  //distance2 = getDistance2();   //variable to store the distance measured by the sensor
 
+  distance0 = 10000; 
+  distance1 = 12200;
+  distance2 = (distance0 + distance1) / 2; // Apply a correction factor to the distance measured by the sensor
+  Serial.print("Came so far"); //print the distance that was measured
+  Serial.print("Distance: "); //print the distance that was measured
   Serial.print(distance0);     //print the distance that was measured
   Serial.print(" left cm");        //print units after the distance
   Serial.print(" ");         //print a space between the two distances
@@ -95,7 +100,7 @@ byte loopUltra() {
 //RETURNS THE DISTANCE MEASURED BY THE HC-SR04 DISTANCE SENSOR
 
 
-float getDistance1()
+int getDistance1()
 {
   float echoTime = 0;                   //variable to store the time it takes for a ping to bounce off an object
   float calculatedDistance = 0;         //variable to store the distance calculated from the echo time
@@ -115,8 +120,9 @@ float getDistance1()
   return calculatedDistance;              //send back the distance that was calculated
 }
 
-float getDistance0()
+int getDistance0()
 {
+  Serial.println("getDistance0() called"); // Debugging line to check if the function is being called
   float echoTime = 0;                   //variable to store the time it takes for a ping to bounce off an object
   float calculatedDistance = 0;         //variable to store the distance calculated from the echo time
   
@@ -131,12 +137,12 @@ float getDistance0()
   calculatedDistance = echoTime / 58.0;  //calculate the distance of the object that reflected the pulse (half the bounce time multiplied by the speed of sound)
   
 
-  
+  Serial.print("Fully calculated distance"); // line to check the calculated distance");
   return calculatedDistance;              //send back the distance that was calculated
 }
 
 
-float getDistance2()
+int getDistance2()
 {
   float echoTime = 0;                   //variable to store the time it takes for a ping to bounce off an object
   float calculatedDistance = 0;         //variable to store the distance calculated from the echo time
