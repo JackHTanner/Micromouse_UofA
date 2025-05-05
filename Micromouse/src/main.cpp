@@ -6,13 +6,19 @@
 #include <avr/io.h>
 #include <avr/interrupt.h>
 
-volatile int currentDirection = 2; //Start facing SOUTH
+int currentX = 1;
+int currentY = 0;
+
+int targetX = 0;
+int targetY = 0;
+
+volatile int currDirection = 2; //Start facing SOUTH
 //currDirection: 0 = North, 1 = East, 2 = South, 3 = West 
 void updateDirection(int LeftorRight) { //Left = 0, Right = 1
-      if (currDirection == 1 && LeftOrRight == 0) {	//if facing EAST and turn LEFT, new direction is NORTH 
+      if (currDirection == 1 && LeftorRight == 0) {	//if facing EAST and turn LEFT, new direction is NORTH 
         currDirection = 0;
       }
-      else if (currDirection == 1 && LeftOrRight == 1) {
+      else if (currDirection == 1 && LeftorRight == 1) {
         currDirection = 2;
       }
       else if (currDirection == 2 && LeftorRight == 0) {
@@ -51,7 +57,7 @@ int main () {
   //Serial.println("Starting...");
   initTimer1();
   initTimer2();
-  setUpPins();
+  setupUltra();
   byte walls;
   byte mazePath[5][5] = {
     {0,0,0,0,0},
@@ -60,12 +66,6 @@ int main () {
     {0,0,0,0,0},
     {0,0,0,0,0}
   };
-
-  int currentX = 1;
-  int currentY = 0;
-
-  int targetX = 0;
-  int targetY = 0;
 
   while (1) {
     walls = loopUltra();
