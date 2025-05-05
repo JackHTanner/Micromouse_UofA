@@ -1,5 +1,6 @@
 #include <Arduino.h>
 #include "timer.h"
+#include "PWM.h"
 #include "SPI.h"
 #include "Ultra.h"
 #include "Algorithm.h"
@@ -51,13 +52,14 @@ if (currDirection == 0) { //North
 }
 
 int main () {
-  DDRA |= (1<<DDA5) | (1<<DDA4) | (1<<DDA6) | (1<<DDA7);
   Serial.begin(9600);
   Serial.flush();
-  //Serial.println("Starting...");
+  Serial.println("Starting.");
+  DDRA |= (1<<DDA5) | (1<<DDA4) | (1<<DDA6) | (1<<DDA7);
   initTimer1();
   initTimer2();
   setupUltra();
+  initMAX7219();
   byte walls;
   byte mazePath[5][5] = {
     {0,0,0,0,0},
@@ -67,79 +69,92 @@ int main () {
     {0,0,0,0,0}
   };
 
+  Serial.println("Initialized maze successfully!");
+
   while (1) {
-    Serial.println("looping...");
-    walls = loopUltra();
-    switch (walls) {
-      case 0b000: // No walls detected. Go forward.
-          goForwardAndThenStop();
-	  updatePosition();
-	  displayAnimation();
-          break;
-      case 0b001: // Right wall detected. Orient left and go forward.
-          orientLeft();
-	  updateDirection(0);
-          delayMs(100);
-          goForwardAndThenStop();
-	  updatePosition();
-	  displayAnimation();
-          break;
-      case 0b010: // Front wall detected. Orient left and go forward.
-          orientLeft();
-	  updateDirection(0);
-          delayMs(100);
-          goForwardAndThenStop();
-	  updatePosition();
-	  displayAnimation();
-          break;
-      case 0b011: // Front and right walls detected. Orient left and go forward.
-          orientLeft();
-	  updateDirection(0);
-          delayMs(100);
-          goForwardAndThenStop();
-	  updatePosition();
-	  displayAnimation();
-          break;
-      case 0b100: // Left wall detected. Go forward.
-          goForwardAndThenStop();
-	  updatePosition();
-          delayMs(100);
-	  displayAnimation();
-          break;
-      case 0b101: // Left and right walls detected. Go forward.
-          goForwardAndThenStop();
-	  updatePosition();
-          delayMs(100);
-	  displayAnimation();
-          break;
-      case 0b110: // Left and front walls detected. Orient right and go forward.
-          orientRight();
-	  updateDirection(1);
-          delayMs(100);
-          goForwardAndThenStop();
-	  updatePosition();
-	  displayAnimation();
-          break;
-      case 0b111: // Left, front, and right walls detetected. Turn around.
-          turnAround();
-	  updateDirection(0);
-	  updateDirection(0);
-	  displayAnimation();
+   displayAnimation();
+    goForwardAndThenStop();
+   /*
+   walls = loopUltra();
+   Serial.println(walls);
+   
+   walls = 0b10100101;
+   Serial.println("Walls set up.");
+  }
+  switch (walls) {
+    case 0b000: // No walls detected. Go forward.
+    
+    goForwardAndThenStop();
+    updatePosition();
+    displayAnimation();
+    break;
+    case 0b00000001: // Right wall detected. Orient left and go forward.
+    orientLeft();
+    updateDirection(0);
+    delayMs(100);
+    goForwardAndThenStop();
+    updatePosition();
+    displayAnimation();
+    break;
+    case 0b00000010: // Front wall detected. Orient left and go forward.
+    orientLeft();
+    updateDirection(0);
+    delayMs(100);
+    goForwardAndThenStop();
+    updatePosition();
+    displayAnimation();
+    break;
+    case 0b00000011: // Front and right walls detected. Orient left and go forward.
+    orientLeft();
+    updateDirection(0);
+    delayMs(100);
+    goForwardAndThenStop();
+    updatePosition();
+    displayAnimation();
+    break;
+    case 0b00000100: // Left wall detected. Go forward.
+    goForwardAndThenStop();
+    updatePosition();
+    delayMs(100);
+    displayAnimation();
+    break;
+    case 0b00000101: // Left and right walls detected. Go forward.
+    Serial.println("Going forward");
+    goForwardAndThenStop();
+    updatePosition();
+    delayMs(100);
+    displayAnimation();
+    break;
+    case 0b00000110: // Left and front walls detected. Orient right and go forward.
+    orientRight();
+    updateDirection(1);
+    delayMs(100);
+    goForwardAndThenStop();
+    updatePosition();
+    displayAnimation();
+    break;
+    case 0b00000111: // Left, front, and right walls detetected. Turn around.
+    turnAround();
+    updateDirection(0);
+    updateDirection(0);
+    displayAnimation();
 		//update direction twice to simulate 2 left turns (180 degree turn)
-          delayMs(100);
-          break;
-      default:
-          goForwardAndThenStop();
-          break;
-
+    delayMs(100);
+    break;
+    default:
+    goForwardAndThenStop();
+    break;
+    
 	  mazePath[currentX][currentY] = 1;
-	if (currentX == targetX && currentY == targetY) {
-	break;
-	}
-      }
-
-	  
-	}
-  return 0;
+    if (currentX == targetX && currentY == targetY) {
+      break;
+    }
+    */
+  }
+  
+  return 0;   
+  
 }
+
+
 
