@@ -56,6 +56,8 @@ void loop() {
     // are found in the datasheet, and calculated from the assumed speed
     //of sound in air at sea level (~340 m/s).
     readingLeft = pulse_width_Left / 58.0;
+    
+    delayMs(60);
 
     /**********Polling the front sensor**********/
 
@@ -88,6 +90,8 @@ void loop() {
     //of sound in air at sea level (~340 m/s).
     readingFront = pulse_width_Front / 58.0;
 
+    delayMs(60);
+
     /**********Polling the right sensor**********/
 
     // Set the trigger pin to output
@@ -118,6 +122,8 @@ void loop() {
     // are found in the datasheet, and calculated from the assumed speed
     //of sound in air at sea level (~340 m/s).
     readingFront = pulse_width_Front / 58.0;
+
+    delayMs(60);
 
     // Check whether a wall is detected
     // 1: Wall is detected
