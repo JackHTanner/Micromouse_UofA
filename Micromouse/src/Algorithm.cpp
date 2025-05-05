@@ -188,9 +188,9 @@ void loop() {
 
     byte walls = (lSensor << 2) | (fSensor << 1) | (rSensor << 0);
 
-    // Tell the mouse to go forward, go left, go right, turn around,
-    // or stop based on which sensors detect walls.
-    // Default is for the mouse to stop.
+    // Tell the mouse to go forward and stop, go left, go right, or turn around
+    // based on which sensors detect walls.
+    // Default is for the mouse to go forward and stop.
     switch (walls) {
         case 0b000: // No walls detected. Go forward.
             goForwardAndThenStop();
