@@ -1,6 +1,7 @@
 #ifndef ALGORITHM_H
 #define ALGORITHM_H
 
+void setup();
 void loop();
 void goForward();
 void orientLeft();
