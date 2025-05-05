@@ -1,15 +1,6 @@
 #include "timer.h"
 #include "Arduino.h"
 
-#define leftSensorTriggerPin = 46; //PL3 
-#define leftSensorEchoPin = 47; //PL2
-
-#define frontSensorTriggerPin = 36; //PC1
-#define frontSensorEchoPin = 38; //PD7
-
-#define rightSensorTriggerPin = 23; //PA1
-#define rightSensorEchoPin = 22; //PA0
-
 unsigned long time1Left;
 unsigned long time2Left;
 unsigned long pulse_width_Left;
@@ -27,6 +18,8 @@ float readingRight;
 
 
 void goForwardAndThenStop() {
+    PORTA |= (1<<PORTA4) | (PORTA6);
+    PORTA &= ~(1<<PORTA5) | (1<<PORTA7);
 
 
     // Set motor to maximimum speed
@@ -37,6 +30,8 @@ void goForwardAndThenStop() {
 }
 
 void orientLeft() {
+    PORTA |= (1<<PORTA5) | (PORTA6);
+    PORTA &= ~(1<<PORTA4) | (1<<PORTA7);
     // Set motor to half speed
     // Right wheel spins forward at half speed
     // Left wheel spins backward at half speed
@@ -44,6 +39,8 @@ void orientLeft() {
 }
 
 void orientRight() {
+    PORTA |= (1<<PORTA4) | (PORTA7);
+    PORTA &= ~(1<<PORTA5) | (1<<PORTA6);
     // Set motor to half speed
     // Right wheel spins backward at half speed
     // Left sheel spins forward at half speed
@@ -51,10 +48,12 @@ void orientRight() {
 }
 
 void turnAround() {
+    PORTA |= (1<<PORTA4) | (PORTA7);
+    PORTA &= ~(1<<PORTA5) | (1<<PORTA6);
     // Set motor to half speed
     // Right wheel spins backward at half speed
     // Left sheel spins forward at half speed
-    delayS(2);
+    delayS(4);
 }
 
 
@@ -68,7 +67,7 @@ int wallDetection (float reading) {
     }
 }
 
-void setup() {
+void setUpPins() {
     // Setup the left sensor
 
     // Set the trigger pin to output
@@ -117,7 +116,7 @@ void loop() {
     PORTL &= ~(1 << 3); 
 
     // Wait for pulse on echo pin
-    while ((PINL & (1 << PINL2)) == 0 );
+    while ((PINL & (1 << PINL2)) == 0);
 
     // Measure how long the echo pin was held high (pulse width)
     time1Left = micros();
@@ -147,7 +146,7 @@ void loop() {
     PORTC &= ~(1 << 1); 
 
     // Wait for pulse on echo pin
-    while ((PIND & (1 << PIND7)) == 0 );
+    while ((PIND & (1 << PIND7)) == 0);
 
     // Measure how long the echo pin was held high (pulse width)
     time1Front = micros();
@@ -196,9 +195,9 @@ void loop() {
 
     byte walls = (lSensor << 2) | (fSensor << 1) | (rSensor << 0);
 
-    // Tell the mouse to go forward, go left, go right, turn around,
-    // or stop based on which sensors detect walls.
-    // Default is for the mouse to stop.
+    // Tell the mouse to go forward and stop, go left, go right, or turn around
+    // based on which sensors detect walls.
+    // Default is for the mouse to go forward and stop.
     switch (walls) {
         case 0b000: // No walls detected. Go forward.
             goForwardAndThenStop();

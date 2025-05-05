@@ -1,142 +1,145 @@
 #include <Arduino.h>
 #include "timer.h"
 #include "SPI.h"
-#include "I2C.h"
-#include "PWM.h"
+#include "Ultra.h"
+#include "Algorithm.h"
 #include <avr/io.h>
 #include <avr/interrupt.h>
-#include "Ultra.h"
 
-/*
-typedef enum
-{
-  SMILEY,
-  FROWN,
-} StateType;
+//currDirection: 0 = North, 1 = East, 2 = South, 3 = West 
+void updateDirection(int LeftorRight) { //Left = 0, Right = 1
+      if (currDirection == 1 && LeftOrRight == 0) {	//if facing EAST and turn LEFT, new direction is NORTH 
+        currDirection = 0;
+      }
+      else if (currDirection == 1 && LeftOrRight == 1) {
+        currDirection = 2;
+      }
+      else if (currDirection == 2 && LeftorRight == 0) {
+        currDirection = 1;
+      }
+      else if (currDirection == 2 && LeftorRight == 1) {
+        currDirection = 3;
+      }
+      else if (currDirection == 3 && LeftorRight == 0) {
+        currDirection = 2;
+      }
+      else if (currDirection == 3 && LeftorRight == 1) {
+        currDirection = 0;
+      }
+}
 
-typedef enum stateName
-{
-  WAIT_PRESS,
-  DEBOUNCE_PRESS,
-  WAIT_RELEASE,
-  DEBOUNCE_RELEASE
-} State;
+void updatePosition() {
+if (currDirection == 0) { //North
+        currentX--;
+      }
+      else if (currDirection == 1) { //East
+        currentY++;
+      }
+      else if (currDirection == 2) { //South
+        currentX++;
+      }
+      else if (currDirection == 3) { //West
+        currentY--;
+      }
+}
 
-volatile State buttonState = WAIT_PRESS;
-volatile StateType state = SMILEY;
-volatile bool smiley = true;
-volatile uint8_t toggleState = 0;
-volatile uint16_t tickCounter = 0;
-volatile uint8_t overflowCount = 0;
-volatile bool useHighFreq = true;
-bool chirp = false;
-
-*/ 
 int main () {
-
+  DDRA |= (1<<DDA5) | (1<<DDA4) | (1<<DDA6) | (1<<DDA7);
   Serial.begin(9600);
   Serial.flush();
-  Serial.println("Starting...");
-// Initialize the timer and PWM timer
- //  initTimer1();
-  // initTimer2();
- //   initPWMTimer3();
-  // turnOffDutyCycle();
-    // Initialize the MAX7219
- //  InitI2C();
-  //  setup();
-  
-    //int16_t ax, ay, az;
+  //Serial.println("Starting...");
+  initTimer1();
+  initTimer2();
+  setUpPins();
+  byte walls;
+  byte mazePath[5][5] = {
+    {0,0,0,0,0},
+    {1,0,0,0,0},
+    {0,0,0,0,0},
+    {0,0,0,0,0},
+    {0,0,0,0,0}
+  };
 
-    sei(); // Enable global interrupts
-    setupUltra();
+  int currentX = 1;
+  int currentY = 0;
+
+  int targetX = 0;
+  int targetY = 0;
+
+  int currDirection = 2; //start facing SOUTH
 
   while (1) {
- 
-
-loopUltra();
-    
-  
-    delayS(1);
-    
-
-
-//loop();
-
-
-    //ReadAccelData(&ax, &ay, &az);
-
-    // // Now we calculate tilt
-    // float ax_g = ax / 16384.0;
-    // float ay_g = ay / 16384.0;
-    // float az_g = az / 16384.0;
-
-    // float pitch = atan2(ax_g, sqrt(ay_g * ay_g + az_g * az_g)) * (180.0 / 3.14159);
-    // float roll  = atan2(ay_g, sqrt(ax_g * ax_g + az_g * az_g)) * (180.0 / 3.14159);
-
-    // int isTilted = (fabs(pitch) >= 45.0) || (fabs(roll) >= 45.0);
-
-    // Serial.print(ax);
-    // Serial.print(" ");
-    // Serial.print(ay);
-    // Serial.print(" ");
-    // Serial.print(az);
-    // Serial.print(" ");
-    // if (isTilted){
-    //   Serial.println("IT's TILTING!!!!");
-    //   state = FROWN;
-    // }
-
-    // else{
-    //   Serial.println("All is stable");
-    //   state = SMILEY;
-    // }
-
-    // switch (state) {
-    //   case SMILEY:
-    //     displaySmileyFace();
-    //     break;
-
-    //   case FROWN:
-    //     displayFrownyFace();
-    //     chirp = true;
-    //     break;
-
-    //   default:
-    //     Serial.println("In default LED state.");
-    //     break;
-    // }
-/*
-    switch(buttonState){
-      case WAIT_PRESS:
-        break;
-      case DEBOUNCE_PRESS:
-        delayMs(1);
-        buttonState = WAIT_RELEASE;
-        break;
-      case WAIT_RELEASE:
-        break;
-      case DEBOUNCE_RELEASE:
-        delayMs(1);
-        chirp = false;
-         buttonState = WAIT_PRESS;
-        break;
+    walls = loopUltra();
+    switch (walls) {
+      case 0b000: // No walls detected. Go forward.
+          goForwardAndThenStop();
+	  updatePosition();
+	  displayAnimation();
+          break;
+      case 0b001: // Right wall detected. Orient left and go forward.
+          orientLeft();
+	  updateDirection(0);
+          delayMs(100);
+          goForwardAndThenStop();
+	  updatePosition();
+	  displayAnimation();
+          break;
+      case 0b010: // Front wall detected. Orient left and go forward.
+          orientLeft();
+	  updateDirection(0);
+          delayMs(100);
+          goForwardAndThenStop();
+	  updatePosition();
+	  displayAnimation();
+          break;
+      case 0b011: // Front and right walls detected. Orient left and go forward.
+          orientLeft();
+	  updateDirection(0);
+          delayMs(100);
+          goForwardAndThenStop();
+	  updatePosition();
+	  displayAnimation();
+          break;
+      case 0b100: // Left wall detected. Go forward.
+          goForwardAndThenStop();
+	  updatePosition();
+          delayMs(100);
+	  displayAnimation();
+          break;
+      case 0b101: // Left and right walls detected. Go forward.
+          goForwardAndThenStop();
+	  updatePosition();
+          delayMs(100);
+	  displayAnimation();
+          break;
+      case 0b110: // Left and front walls detected. Orient right and go forward.
+          orientRight();
+	  updateDirection(1);
+          delayMs(100);
+          goForwardAndThenStop();
+	  updatePosition();
+	  displayAnimation();
+          break;
+      case 0b111: // Left, front, and right walls detetected. Turn around.
+          turnAround();
+	  updateDirection(0);
+	  updateDirection(0);
+	  displayAnimation();
+		//update direction twice to simulate 2 left turns (180 degree turn)
+          delayMs(100);
+          break;
       default:
-        break;
-    }
+          goForwardAndThenStop();
+          break;
 
-    if (chirp == true){
-      turnOnDutyCycle();
-    }
-    else{
-      turnOffDutyCycle();
-    }
+	  mazePath[currentX][currentY] = 1;
+	if (currentX == targetX && currentY == targetY) {
+	break;
 	}
+      }
 
-  */
-
-  }
+	  
+	}
   return 0;
-
 }
 
