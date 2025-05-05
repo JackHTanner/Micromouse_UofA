@@ -13,6 +13,7 @@ void Read_from(unsigned char SLA, unsigned char MEMADDRESS);
 
 unsigned char Read_data();
 
-void ReadAccelData(int16_t* x, int16_t* y, int16_t* z);
+void ReadDistanceData(int16_t* Left, int16_t* Center, int16_t* Right);
+
 
 #endif

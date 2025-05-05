@@ -5,7 +5,9 @@
 #include "PWM.h"
 #include <avr/io.h>
 #include <avr/interrupt.h>
+#include "Ultra.h"
 
+/*
 typedef enum
 {
   SMILEY,
@@ -28,6 +30,8 @@ volatile uint16_t tickCounter = 0;
 volatile uint8_t overflowCount = 0;
 volatile bool useHighFreq = true;
 bool chirp = false;
+
+*/ 
 int main () {
 
   Serial.begin(9600);
@@ -37,15 +41,19 @@ int main () {
     initTimer1();
     initTimer2();
     initPWMTimer3();
-    turnOffDutyCycle();
+   // turnOffDutyCycle();
     // Initialize the MAX7219
     InitI2C();
+    setup();
   
     //int16_t ax, ay, az;
 
     sei(); // Enable global interrupts
 
   while (1) {
+
+loop();
+
     //ReadAccelData(&ax, &ay, &az);
 
     // // Now we calculate tilt
@@ -88,7 +96,7 @@ int main () {
     //     Serial.println("In default LED state.");
     //     break;
     // }
-
+/*
     switch(buttonState){
       case WAIT_PRESS:
         break;
@@ -114,6 +122,11 @@ int main () {
       turnOffDutyCycle();
     }
 	}
+
+  */
+
+  }
   return 0;
+
 }
 

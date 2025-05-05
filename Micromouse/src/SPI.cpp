@@ -53,10 +53,10 @@ void sendData(byte address, byte data) {
 
 void shutDown() {
   // Put the MAX7219 in shutdown mode
-  sendData(REG_SHUTDOWN, 0x00);
+ // sendData(REG_SHUTDOWN, 0x00);
 }
 
 void wakeUp() {
   // Wake up the MAX7219 from shutdown mode
-  sendData(REG_SHUTDOWN, 0x01);
+ // sendData(REG_SHUTDOWN, 0x01);
 }

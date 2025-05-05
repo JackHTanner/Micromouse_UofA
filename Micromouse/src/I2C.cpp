@@ -6,13 +6,17 @@
 
 #define I2C_WRITE 0
 #define I2C_READ 1
-#define MPU6050_ADDR 0x68 // WHO_AM_I should return 0x68
+#define OPT3101_ADDR 0b1011111 // WHO_AM_I should return 0x68
 
-void InitI2C() {
-    // Wake up the MPU6050 by writing 0x00 to PWR_MGMT_1 (0x6B)
-    StartI2C_Trans(MPU6050_ADDR);
-    Write(0x6B);      // Power management register
-    Write(0x00);      // Wake up the MPU6050
+
+
+ void InitI2C() {
+    // Wake up the OPT3101 by writing 0x00 to PWR_MGMT_1 (0x6B)
+    StartI2C_Trans(OPT3101_ADDR);    
+    Write(0x00);  
+    Write(0x01);  // Turning on the I2C continuous reading mode  
+    Write(0x00); 
+    Write(0x40);  // Turning on the Force enable slave.
     StopI2C_Trans();
 
     // I2C prescaler and bit rate
@@ -20,7 +24,7 @@ void InitI2C() {
     TWBR = 18;                              // ~100kHz for 16MHz system clock
     TWCR = (1 << TWEN);                     // Enable TWI
 
-    _delay_ms(100);                         // Wait for MPU6050 to stabilize
+    _delay_ms(100);                         // Wait for OPT3101 to stabilize  !!!!!!!!!!!!!!        FIXME
 }
 
 void StartI2C_Trans(unsigned char SLA) {
@@ -43,18 +47,18 @@ void Write(unsigned char data) {
     wait_for_completion;
 }
 
-void ReadAccelData(int16_t* x, int16_t* y, int16_t* z) {
-    uint8_t regAddr = 0x3B; // Start at ACCEL_XOUT_H
+void ReadDistanceData(int16_t* Left, int16_t* Center, int16_t* Right) {
+    uint8_t regAddr = 0x08; // Start at Phase out register
 
     // Write register address to start reading from
-    StartI2C_Trans(MPU6050_ADDR);
+    StartI2C_Trans(OPT3101_ADDR);
     Write(regAddr);
 
     // Repeated start, switch to read mode
     TWCR = (1 << TWINT) | (1 << TWSTA) | (1 << TWEN);
     wait_for_completion;
 
-    TWDR = (MPU6050_ADDR << 1) | I2C_READ;
+    TWDR = (OPT3101_ADDR << 1) | I2C_READ;
     TWCR = (1 << TWINT) | (1 << TWEN);
     wait_for_completion;
 
@@ -72,7 +76,7 @@ void ReadAccelData(int16_t* x, int16_t* y, int16_t* z) {
     StopI2C_Trans();
 
     // Combine high and low bytes into signed 16-bit values
-    *x = (int16_t)((data[0] << 8) | data[1]);
-    *y = (int16_t)((data[2] << 8) | data[3]);
-    *z = (int16_t)((data[4] << 8) | data[5]);
+    *Left = (int16_t)((data[0] << 8) | data[1]);
+    *Center = (int16_t)((data[2] << 8) | data[3]);
+    *Right = (int16_t)((data[4] << 8) | data[5]);
 }
