@@ -6,6 +6,7 @@
 #include <avr/io.h>
 #include <avr/interrupt.h>
 
+volatile int currentDirection = 2; //Start facing SOUTH
 //currDirection: 0 = North, 1 = East, 2 = South, 3 = West 
 void updateDirection(int LeftorRight) { //Left = 0, Right = 1
       if (currDirection == 1 && LeftOrRight == 0) {	//if facing EAST and turn LEFT, new direction is NORTH 
@@ -65,8 +66,6 @@ int main () {
 
   int targetX = 0;
   int targetY = 0;
-
-  int currDirection = 2; //start facing SOUTH
 
   while (1) {
     walls = loopUltra();
