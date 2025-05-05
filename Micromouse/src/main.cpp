@@ -6,6 +6,43 @@
 #include <avr/io.h>
 #include <avr/interrupt.h>
 
+//currDirection: 0 = North, 1 = East, 2 = South, 3 = West 
+void updateDirection(int LeftorRight) { //Left = 0, Right = 1
+      if (currDirection == 1 && LeftOrRight == 0) {	//if facing EAST and turn LEFT, new direction is NORTH 
+        currDirection = 0;
+      }
+      else if (currDirection == 1 && LeftOrRight == 1) {
+        currDirection = 2;
+      }
+      else if (currDirection == 2 && LeftorRight == 0) {
+        currDirection = 1;
+      }
+      else if (currDirection == 2 && LeftorRight == 1) {
+        currDirection = 3;
+      }
+      else if (currDirection == 3 && LeftorRight == 0) {
+        currDirection = 2;
+      }
+      else if (currDirection == 3 && LeftorRight == 1) {
+        currDirection = 0;
+      }
+}
+
+void updatePosition() {
+if (currDirection == 0) { //North
+        currentX--;
+      }
+      else if (currDirection == 1) { //East
+        currentY++;
+      }
+      else if (currDirection == 2) { //South
+        currentX++;
+      }
+      else if (currDirection == 3) { //West
+        currentY--;
+      }
+}
+
 int main () {
   DDRA |= (1<<DDA5) | (1<<DDA4) | (1<<DDA6) | (1<<DDA7);
   Serial.begin(9600);
