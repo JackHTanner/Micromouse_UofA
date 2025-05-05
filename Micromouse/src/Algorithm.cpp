@@ -123,7 +123,7 @@ void loop() {
     PORTL &= ~(1 << 3); 
 
     // Wait for pulse on echo pin
-    while ((PINL & (1 << PINL2)) == 0 );
+    while ((PINL & (1 << PINL2)) == 0);
 
     // Measure how long the echo pin was held high (pulse width)
     time1Left = micros();
@@ -147,7 +147,7 @@ void loop() {
     PORTC &= ~(1 << 1); 
 
     // Wait for pulse on echo pin
-    while ((PIND & (1 << PIND7)) == 0 );
+    while ((PIND & (1 << PIND7)) == 0);
 
     // Measure how long the echo pin was held high (pulse width)
     time1Front = micros();
