@@ -27,7 +27,7 @@ float readingRight;
 
 void goForward() {
     // Set motor to maximimum speed
-    // Both wheels spin backward at max speed
+    // Both wheels spin forward at max speed
 }
 
 void orientLeft() {
