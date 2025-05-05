@@ -47,7 +47,6 @@ void loop() {
     while (PINL & (1 << PINL2) == 0 );
 
     // Measure how long the echo pin was held high (pulse width)
-    // Note: the micros() counter will overflow after ~70 min
     time1Left = micros();
     while (PINL & (1 << PINL2) == 1);
     time2Left = micros();
@@ -79,7 +78,6 @@ void loop() {
     while (PIND & (1 << PIND7) == 0 );
 
     // Measure how long the echo pin was held high (pulse width)
-    // Note: the micros() counter will overflow after ~70 min
     time1Front = micros();
     while (PIND & (1 << PIND7) == 1);
     time2Front = micros();
@@ -111,7 +109,6 @@ void loop() {
     while (PINA & (1 << PINA0) == 0 );
 
     // Measure how long the echo pin was held high (pulse width)
-    // Note: the micros() counter will overflow after ~70 min
     time1Front = micros();
     while (PINA & (1 << PINA0) == 1);
     time2Front = micros();
