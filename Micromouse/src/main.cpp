@@ -68,6 +68,7 @@ int main () {
   };
 
   while (1) {
+    Serial.println("looping...");
     walls = loopUltra();
     switch (walls) {
       case 0b000: // No walls detected. Go forward.
