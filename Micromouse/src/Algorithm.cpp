@@ -25,8 +25,8 @@ unsigned long time2Right;
 unsigned long pulse_width_Right;
 float readingRight;
 
-void loop() {
-   /**********Polling the left sensor**********/
+void setup() {
+    // Setup the left sensor
 
     // Set the trigger pin to output
     DDRL |= (1 << DDL3);
@@ -37,6 +37,37 @@ void loop() {
     DDRL &= ~(1 << DDL2);
     // Enable pull-up resistor
     PORTL |= (1 << 2);
+
+
+    // Setup the front sensor
+
+    // Set the trigger pin to output
+    DDRC |= (1 << DDC1);
+    // Set trigger pin to low 
+    PORTC &= ~(1 << 1);
+
+    // Set the echo pin to input
+    DDRD &= ~(1 << DDD7);
+    // Enable pull-up resistor
+    PORTD |= (1 << 7);
+
+    // Setup the right sensor
+
+    // Set the trigger pin to output
+    DDRA |= (1 << DDA1);
+    // Set trigger pin to low 
+    PORTA &= ~(1 << 1);
+
+    // Set the echo pin to input
+    DDRA &= ~(1 << DDA0);
+    // Enable pull-up resistor
+    PORTA |= (1 << 0);
+
+}
+
+
+void loop() {
+   /**********Polling the left sensor**********/
 
     // Hold the trigger pin high. Delay for 10 us. Then, hold trigger pin low.
     PORTL |= (1 << 3);
@@ -56,20 +87,10 @@ void loop() {
     // is found in the datasheet, and calculated from the assumed speed
     // of sound in air at sea level (~340 m/s).
     readingLeft = pulse_width_Left / 58.0;
-    
+
     delayMs(60);
 
     /**********Polling the front sensor**********/
-
-    // Set the trigger pin to output
-    DDRC |= (1 << DDC1);
-    // Set trigger pin to low 
-    PORTC &= ~(1 << 1);
-
-    // Set the echo pin to input
-    DDRD &= ~(1 << DDD7);
-    // Enable pull-up resistor
-    PORTD |= (1 << 7);
 
     // Hold the trigger pin high. Delay for 10 us. Then, hold trigger pin low.
     PORTC |= (1 << 1);
@@ -94,16 +115,6 @@ void loop() {
 
     /**********Polling the right sensor**********/
 
-    // Set the trigger pin to output
-    DDRA |= (1 << DDA1);
-    // Set trigger pin to low 
-    PORTA &= ~(1 << 1);
-
-    // Set the echo pin to input
-    DDRA &= ~(1 << DDA0);
-    // Enable pull-up resistor
-    PORTA |= (1 << 0);
-
     // Hold the trigger pin high. Delay for 10 us. Then, hold trigger pin low.
     PORTA |= (1 << 1);
     delayMs(10);
@@ -113,7 +124,7 @@ void loop() {
     while (PINA & (1 << PINA0) == 0 );
 
     // Measure how long the echo pin was held high (pulse width)
-    time1Front = micros();
+    time1Right = micros();
     while (PINA & (1 << PINA0) == 1);
     time2Right = micros();
     pulse_width_Right = time2Right - time1Right;
