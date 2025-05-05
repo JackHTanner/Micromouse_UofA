@@ -55,7 +55,7 @@ int main () {
   Serial.begin(9600);
   Serial.flush();
   Serial.println("Starting.");
-  DDRA |= (1<<DDA5) | (1<<DDA4) | (1<<DDA6) | (1<<DDA7);
+  DDRC |= (1<<DDC4) | (1<<DDC5);
   initTimer1();
   initTimer2();
   setupUltra();
@@ -73,22 +73,21 @@ int main () {
 
   while (1) {
    displayAnimation();
-    goForwardAndThenStop();
-   /*
+   
+  
    walls = loopUltra();
    Serial.println(walls);
    
-   walls = 0b10100101;
    Serial.println("Walls set up.");
   }
-  switch (walls) {
-    case 0b000: // No walls detected. Go forward.
+ /*  switch (walls) {
+    case 0: // No walls detected. Go forward.
     
     goForwardAndThenStop();
     updatePosition();
     displayAnimation();
     break;
-    case 0b00000001: // Right wall detected. Orient left and go forward.
+    case 1: // Right wall detected. Orient left and go forward.
     orientLeft();
     updateDirection(0);
     delayMs(100);
@@ -96,7 +95,9 @@ int main () {
     updatePosition();
     displayAnimation();
     break;
-    case 0b00000010: // Front wall detected. Orient left and go forward.
+  }
+}
+    case 2: // Front wall detected. Orient left and go forward.
     orientLeft();
     updateDirection(0);
     delayMs(100);
@@ -104,7 +105,7 @@ int main () {
     updatePosition();
     displayAnimation();
     break;
-    case 0b00000011: // Front and right walls detected. Orient left and go forward.
+    case 3: // Front and right walls detected. Orient left and go forward.
     orientLeft();
     updateDirection(0);
     delayMs(100);
@@ -112,20 +113,20 @@ int main () {
     updatePosition();
     displayAnimation();
     break;
-    case 0b00000100: // Left wall detected. Go forward.
+    case 4: // Left wall detected. Go forward.
     goForwardAndThenStop();
     updatePosition();
     delayMs(100);
     displayAnimation();
     break;
-    case 0b00000101: // Left and right walls detected. Go forward.
+    case 5: // Left and right walls detected. Go forward.
     Serial.println("Going forward");
     goForwardAndThenStop();
     updatePosition();
     delayMs(100);
     displayAnimation();
     break;
-    case 0b00000110: // Left and front walls detected. Orient right and go forward.
+    case 6: // Left and front walls detected. Orient right and go forward.
     orientRight();
     updateDirection(1);
     delayMs(100);
@@ -133,7 +134,7 @@ int main () {
     updatePosition();
     displayAnimation();
     break;
-    case 0b00000111: // Left, front, and right walls detetected. Turn around.
+    case 7: // Left, front, and right walls detetected. Turn around.
     turnAround();
     updateDirection(0);
     updateDirection(0);
@@ -149,9 +150,9 @@ int main () {
     if (currentX == targetX && currentY == targetY) {
       break;
     }
-    */
-  }
-  
+*/
+ 
+
   return 0;   
   
 }
