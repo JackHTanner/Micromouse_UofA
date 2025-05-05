@@ -66,50 +66,79 @@ int main () {
   int targetX = 0;
   int targetY = 0;
 
-  int currDirection = 1;
+  int currDirection = 2; //start facing SOUTH
 
   while (1) {
     walls = loopUltra();
     switch (walls) {
       case 0b000: // No walls detected. Go forward.
           goForwardAndThenStop();
+	  updatePosition();
+	  displayAnimation();
           break;
       case 0b001: // Right wall detected. Orient left and go forward.
           orientLeft();
+	  updateDirection(0);
           delayMs(100);
           goForwardAndThenStop();
+	  updatePosition();
+	  displayAnimation();
           break;
       case 0b010: // Front wall detected. Orient left and go forward.
           orientLeft();
+	  updateDirection(0);
           delayMs(100);
           goForwardAndThenStop();
+	  updatePosition();
+	  displayAnimation();
           break;
       case 0b011: // Front and right walls detected. Orient left and go forward.
           orientLeft();
+	  updateDirection(0);
           delayMs(100);
           goForwardAndThenStop();
+	  updatePosition();
+	  displayAnimation();
           break;
       case 0b100: // Left wall detected. Go forward.
           goForwardAndThenStop();
+	  updatePosition();
           delayMs(100);
+	  displayAnimation();
           break;
       case 0b101: // Left and right walls detected. Go forward.
           goForwardAndThenStop();
+	  updatePosition();
           delayMs(100);
+	  displayAnimation();
           break;
       case 0b110: // Left and front walls detected. Orient right and go forward.
           orientRight();
+	  updateDirection(1);
           delayMs(100);
           goForwardAndThenStop();
+	  updatePosition();
+	  displayAnimation();
           break;
       case 0b111: // Left, front, and right walls detetected. Turn around.
           turnAround();
+	  updateDirection(0);
+	  updateDirection(0);
+	  displayAnimation();
+		//update direction twice to simulate 2 left turns (180 degree turn)
           delayMs(100);
           break;
       default:
           goForwardAndThenStop();
           break;
+
+	  mazePath[currentX][currentY] = 1;
+	if (currentX == targetX && currentY == targetY) {
+	break;
+	}
       }
+
+	  
 	}
   return 0;
 }
