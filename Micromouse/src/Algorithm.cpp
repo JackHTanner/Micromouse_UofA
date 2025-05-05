@@ -129,12 +129,12 @@ void loop() {
     int fSensor = wallDetection(readingFront);
     int rSensor = wallDetection(readingRight);
 
-    int compositeSensor = (lSensor << 2) | (fSensor << 1) | (rSensor << 0);
+    byte walls = (lSensor << 2) | (fSensor << 1) | (rSensor << 0);
 
     // Tell the mouse to go forward, go left, go right, turn around,
     // or stop based on which sensors detect walls.
     // Default is for the mouse to stop.
-    switch (compositeSensor) {
+    switch (walls) {
         case 0b000: // No walls detected. Go forward.
             goForward();
             break;
