@@ -4,12 +4,8 @@
 #include "Ultra.h"
 
 
-const int trigPin0 = 46;           //connects to the trigger pin on the distance sensor
-const int echoPin0 = 47;           //connects to the echo pin on the distance sensor
 
 
-const int trigPin1 = 36;           //connects to the trigger pin on the distance sensor
-const int echoPin1 = 38;           //connects to the echo pin on the distance sensor
 
 
 const int trigPin2 = 23;           //connects to the trigger pin on the distance sensor
