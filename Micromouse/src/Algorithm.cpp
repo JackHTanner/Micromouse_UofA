@@ -1,6 +1,6 @@
 #include "timer.h"
 #include "Arduino.h"
-
+/*
 void setup() {
     // Set pins D11, D12, and D13 as inputs 
     DDRB &= ~((1 << DDB5) | (1 << DDB6) | (1 << DDB7));
@@ -28,15 +28,15 @@ void loop() {
     // Default is for the mouse to stop.
     switch (compositeSensor) {
         case 0b000: // No walls detected. Go forward.
-            goForward();
+          //  goForward();
             break;
         case 0b001: // Right wall detected. Orient left and go forward.
-            orientLeft();
+          //  orientLeft();
             delayMs(100);
-            goForward();
+         //   goForward();
             break;
         case 0b010: // Front wall detected. Orient left and go forward.
-            orientLeft();
+        //    orientLeft();
             delayMs(100);
             goForward();
             break;
@@ -54,16 +54,16 @@ void loop() {
             delayMs(100);
             break;
         case 0b110: // Left and front walls detected. Orient right and go forward.
-            orientRight();
+         //   orientRight();
             delayMs(100);
             goForward();
             break;
         case 0b111: // Left, front, and right walls detetected. Turn around.
-            turnAround();
+         //   turnAround();
             delayMs(100);
             break;
         default:
-            stop();
+          //  stop();
             break;
 
         }
@@ -100,3 +100,4 @@ void stop() {
     // Set motor to zero speed
     // Wheels stop spinning 
 }
+*/

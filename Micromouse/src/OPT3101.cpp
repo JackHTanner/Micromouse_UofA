@@ -34,7 +34,7 @@ Time-of-Flight Distance Sensor Using OPT3101.
 // ECE 372A: Group 3 Section C 
 // DESCRIPTION: This is a library that helps interface with the
 // distance sensor.
-
+/*
 #include "OPT3101.h"
 #include <Wire.h>
 
@@ -146,6 +146,7 @@ Valid arguments are:
  - 2 for TX2
  - OPT3101ChannelAutoSwitch to automatically cycle through all channels
  */
+/*
 void OPT3101::setChannel(uint8_t channel)
 {
   if (channel > 2) { channel = OPT3101ChannelAutoSwitch; }
@@ -186,7 +187,7 @@ Sets the OPT3101 to use the specified LED brightness. Valid arguments are:
   or too close can cause the sensor to saturate, meaning that it fails to measure a distance. 
   Adaptive mode automatically uses low or high brightness depending on how much reflected light 
   the sensor is seeing.
-*/
+
 void OPT3101::setBrightness(OPT3101Brightness br)
 {
   uint32_t reg2a = readReg(0x2a);
@@ -244,7 +245,7 @@ Configures the OPT3101 to average the specified number of sub-frames. Each frame
 averages the results from these subframes together. Choosing a high number here makes the samples 
 take longer, but could give increased accuracy. subFrameCount can be any power of 2 between 1 and 4096, 
 but it should be at least 2 if you are using adaptive brightness.
-*/
+
 void OPT3101::setFrameTiming(uint16_t subFrameCount)
 {
   // Make sure subFrameCount is a power of 2 between 1 and 4096.
@@ -389,3 +390,4 @@ void OPT3101::sample()
   delay(frameDelayTimeMs);
   readOutputRegs();
 }
+*/

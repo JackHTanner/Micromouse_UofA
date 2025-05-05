@@ -3,8 +3,13 @@
 
 void setupUltra();
 
-void loopUltra();
+byte loopUltra();
 
-float getDistance();
+float getDistance0();
+float getDistance1();
+float getDistance2();
+
+
+
 
 #endif
