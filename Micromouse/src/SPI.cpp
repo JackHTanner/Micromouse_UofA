@@ -516,6 +516,20 @@ void displayAnimation() {
   updateDisplay();
 }
 
+void displaySolution(byte pathFrames[30][5][5]) {
+  for (int i = 0; i < 30; i++) {
+    for (int row = 0; row < 5; row++) {
+      for (int col = 0; col < 5; col++) {
+        if (pathFrames[i][row][col] == 1) {
+          matrix1[row] |= (1 << (7 - col));  // draw on matrix1 only
+        }
+      }
+    }
+
+    updateDisplay();
+    delayMs(99999);
+  }
+}
 
 void shutDown() {
   // Put the MAX7219 in shutdown mode
