@@ -116,11 +116,11 @@ void loop() {
     PORTL &= ~(1 << 3); 
 
     // Wait for pulse on echo pin
-    while (PINL & (1 << PINL2) == 0 );
+    while ((PINL & (1 << PINL2)) == 0);
 
     // Measure how long the echo pin was held high (pulse width)
     time1Left = micros();
-    while (PINL & (1 << PINL2) == 1);
+    while ((PINL & (1 << PINL2)) == 1);
     time2Left = micros();
     pulse_width_Left = time2Left - time1Left;
 
@@ -140,11 +140,11 @@ void loop() {
     PORTC &= ~(1 << 1); 
 
     // Wait for pulse on echo pin
-    while (PIND & (1 << PIND7) == 0 );
+    while ((PIND & (1 << PIND7)) == 0);
 
     // Measure how long the echo pin was held high (pulse width)
     time1Front = micros();
-    while (PIND & (1 << PIND7) == 1);
+    while ((PIND & (1 << PIND7)) == 1);
     time2Front = micros();
     pulse_width_Front = time2Front - time1Front;
 
@@ -164,11 +164,11 @@ void loop() {
     PORTA &= ~(1 << 1); 
 
     // Wait for pulse on echo pin
-    while (PINA & (1 << PINA0) == 0 );
+    while ((PINA & (1 << PINA0)) == 0);
 
     // Measure how long the echo pin was held high (pulse width)
     time1Right = micros();
-    while (PINA & (1 << PINA0) == 1);
+    while ((PINA & (1 << PINA0)) == 1);
     time2Right = micros();
     pulse_width_Right = time2Right - time1Right;
 
