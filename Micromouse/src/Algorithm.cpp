@@ -19,8 +19,10 @@ float readingRight;
 
 
 void goForwardAndThenStop() {
-    changeDutyCycle1(1023);
-    changeDutyCycle2(1023);
+    OCR5B = 1023;
+    OCR5C = 1023;
+    // changeDutyCycle1(1023);
+    // changeDutyCycle2(1023);
     Serial.println("Moving forward");
 
 

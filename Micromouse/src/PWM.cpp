@@ -12,13 +12,15 @@
 // I will have a prescaler of 1.  The calculation of OCR1A are shown below:
 void initPWMTimer3()  {
 
- //set header pin 2 to output
-  DDRC |= (1 << DDC4) | (1 << DDC5);
+ //set header pin 44/45 to output
+  DDRL |= (1 << DDL4) | (1 << DDL5);
   // set non-inverting mode - output starts high and then is low, 
   //COM1A0 bit = 0
   //COM1A1 bit =1
   TCCR5A |= (1 << COM5B1);
   TCCR5A &= ~(1 << COM5B0);
+  TCCR5A |= (1 << COM5C1);
+TCCR5A &= ~(1 << COM5C0);  // non-inverting
 
   //  Use fast PWM mode 15 bit, top value is determined by Table 17-2 of 0x3FF (1023) 
   //  which determines the PWM frequency.
@@ -58,14 +60,14 @@ TCCR5B &= ~((1 << CS51)  | (1 << CS52));
 
 // Output on pin 45 (right motor)
 void changeDutyCycle1(uint16_t adcValue){
-    // cw
+    // forward
     if (adcValue > 512){
       PORTA |= (1<<PORTA4);
       PORTA &= ~(1<<PORTA5);
       OCR5B = (adcValue - 512) * 2;
     }
 
-    //ccw
+    //reverse
     else if (adcValue < 512){
       PORTA &= ~(1<<PORTA4);
       PORTA |= (1<<PORTA5);
