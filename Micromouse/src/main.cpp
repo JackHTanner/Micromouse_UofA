@@ -36,14 +36,14 @@ int main () {
 
   Serial.begin(9600);
   Serial.flush();
-  //Serial.println("Starting...");
-    // Initialize the timer and PWM timer
-   // initTimer1();
-   // initTimer2();
-  //  initPWMTimer3();
-   // turnOffDutyCycle();
+  Serial.println("Starting...");
+// Initialize the timer and PWM timer
+ //  initTimer1();
+  // initTimer2();
+ //   initPWMTimer3();
+  // turnOffDutyCycle();
     // Initialize the MAX7219
-  //  InitI2C();
+ //  InitI2C();
   //  setup();
   
     //int16_t ax, ay, az;
@@ -52,17 +52,13 @@ int main () {
     setupUltra();
 
   while (1) {
+ 
 
-    byte walls = 0b00000000; // No walls detected
-   
-
-    Serial.println("Loop");
+loopUltra();
+    
   
     delayS(1);
-     
-   walls = loopUltra();
     
-    delayS(1);
 
 
 //loop();

@@ -4,34 +4,48 @@
 #include "Ultra.h"
 
 
-
-
-
-
-const int trigPin2 = 23;           //connects to the trigger pin on the distance sensor
-const int echoPin2 = 22;           //connects to the echo pin on the distance sensor
-
-
-
-
-
 float distance0 = 0;             //stores the distance measured by the distance sensor
 float distance1 = 0;             //stores the distance measured by the distance sensor
 float distance2 = 0;             //stores the distance measured by the distance sensor
 
 void setupUltra()
 {
-    //set up a serial connection with the computer
+   // Setup the left sensor
 
-  pinMode(trigPin0, OUTPUT);   //the trigger pin will output pulses of electricity
-  pinMode(echoPin0, INPUT);    //the echo pin will measure the duration of pulses coming back from the distance sensor
+    // Set the trigger pin to output
+    DDRL |= (1 << DDL3);
+    // Set trigger pin to low 
+    PORTL &= ~(1 << PL3);
 
-  pinMode(trigPin1, OUTPUT);   //the trigger pin will output pulses of electricity
-  pinMode(echoPin1, INPUT);    //the echo pin will measure the duration of pulses coming back from the distance sensor
+    // Set the echo pin to input
+    DDRL &= ~(1 << DDL2);
+    // Enable pull-up resistor
+    PORTL |= (1 << PL2);            //  FIXME
 
-  pinMode(trigPin2, OUTPUT);   //the trigger pin will output pulses of electricity
-  pinMode(echoPin2, INPUT);    //the echo pin will measure the duration of pulses coming back from the distance sensor
 
+    // Setup the front sensor
+
+    // Set the trigger pin to output
+    DDRC |= (1 << DDC1);
+    // Set trigger pin to low 
+    PORTC &= ~(1 << PC1);
+
+    // Set the echo pin to input
+    DDRD &= ~(1 << DDD7);
+    // Enable pull-up resistor
+    PORTD |= (1 << PD7);
+
+    // Setup the right sensor
+
+    // Set the trigger pin to output
+    DDRA |= (1 << DDA1);
+    // Set trigger pin to low 
+    PORTA &= ~(1 << PA1);
+
+    // Set the echo pin to input
+    DDRA &= ~(1 << DDA0);
+    // Enable pull-up resistor
+    PORTA |= (1 << PA0);
 }
 
 byte loopUltra() {
@@ -84,11 +98,11 @@ float getDistance1()
   float calculatedDistance = 0;         //variable to store the distance calculated from the echo time
   
   //send out an ultrasonic pulse that's 10ms long
-  digitalWrite(trigPin1, HIGH);
+  PORTC |= (1 << PC1);
   delayMicroseconds(10);
-  digitalWrite(trigPin1, LOW);
+  PORTC &= ~(1 << PC1);
 
-  echoTime = pulseIn(echoPin1, HIGH);  // Add timeout to prevent freezing    //use the pulsein command to see how long it takes for the
+  echoTime = pulseIn(38, HIGH);  // Add timeout to prevent freezing    //use the pulsein command to see how long it takes for the
  
 
   calculatedDistance = echoTime / 58.0;  //calculate the distance of the object that reflected the pulse (half the bounce time multiplied by the speed of sound)
@@ -104,11 +118,11 @@ float getDistance0()
   float calculatedDistance = 0;         //variable to store the distance calculated from the echo time
   
   //send out an ultrasonic pulse that's 10ms long
-  digitalWrite(trigPin0, HIGH);
+  PORTL |= (1 << PL3);
   delayMicroseconds(10);
-  digitalWrite(trigPin0, LOW);
+  PORTL &= ~(1 << PL3);
 
-  echoTime = pulseIn(echoPin0, HIGH);  // Add timeout to prevent freezing    //use the pulsein command to see how long it takes for the
+  echoTime = pulseIn(47, HIGH);  // Add timeout to prevent freezing    //use the pulsein command to see how long it takes for the
  
 
   calculatedDistance = echoTime / 58.0;  //calculate the distance of the object that reflected the pulse (half the bounce time multiplied by the speed of sound)
@@ -125,11 +139,12 @@ float getDistance2()
   float calculatedDistance = 0;         //variable to store the distance calculated from the echo time
   
   //send out an ultrasonic pulse that's 10ms long
-  digitalWrite(trigPin2, HIGH);
+  PORTA |= (1 << PA1);
   delayMicroseconds(10);
-  digitalWrite(trigPin2, LOW);
+  PORTA &= ~(1 << PA1);
 
-  echoTime = pulseIn(echoPin2, HIGH);  // Add timeout to prevent freezing    //use the pulsein command to see how long it takes for the
+
+  echoTime = pulseIn(22, HIGH);  // Add timeout to prevent freezing    //use the pulsein command to see how long it takes for the
  
 
   calculatedDistance = echoTime / 58.0;  //calculate the distance of the object that reflected the pulse (half the bounce time multiplied by the speed of sound)

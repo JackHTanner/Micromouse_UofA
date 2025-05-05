@@ -27,9 +27,11 @@ float readingRight;
 
 
 void goForwardAndThenStop() {
+
+
     // Set motor to maximimum speed
     // Both wheels spin forward at max speed
-    delayS(2);
+    delayS(1);
     // Set motor to zero speed
     // Wheels stop spinning
 }
@@ -38,21 +40,21 @@ void orientLeft() {
     // Set motor to half speed
     // Right wheel spins forward at half speed
     // Left wheel spins backward at half speed
-    delayS(2);
+    delayS(1);
 }
 
 void orientRight() {
     // Set motor to half speed
     // Right wheel spins backward at half speed
     // Left sheel spins forward at half speed
-    delayS(2);
+    delayS(1);
 }
 
 void turnAround() {
     // Set motor to half speed
     // Right wheel spins backward at half speed
     // Left sheel spins forward at half speed
-    delayS(4);
+    delayS(2);
 }
 
 
@@ -111,7 +113,7 @@ void loop() {
 
     // Hold the trigger pin high. Delay for 10 us. Then, hold trigger pin low.
     PORTL |= (1 << 3);
-    delayMs(10);
+    delay(0.1);
     PORTL &= ~(1 << 3); 
 
     // Wait for pulse on echo pin
@@ -128,14 +130,20 @@ void loop() {
     // of sound in air at sea level (~340 m/s).
     readingLeft = pulse_width_Left / 58.0;
 
-    //Delay 60 milliseconds
-    delayMs(60000);
+    Serial.print("Left Sensor Reading: ");
+    Serial.println(readingLeft);
 
-    /**********Polling the front sensor**********/
+
+    //Delay 60 milliseconds
+    delay(0.1);
+
+    /*
+
+    /**********Polling the front sensor*********
 
     // Hold the trigger pin high. Delay for 10 us. Then, hold trigger pin low.
     PORTC |= (1 << 1);
-    delayMs(10);
+    delay(0.1);
     PORTC &= ~(1 << 1); 
 
     // Wait for pulse on echo pin
@@ -153,13 +161,13 @@ void loop() {
     readingFront = pulse_width_Front / 58.0;
 
     //Delay 60 milliseconds
-    delayMs(60000);
+    delay(0.1);
 
-    /**********Polling the right sensor**********/
+    /**********Polling the right sensor*********
 
     // Hold the trigger pin high. Delay for 10 us. Then, hold trigger pin low.
     PORTA |= (1 << 1);
-    delayMs(10);
+    delay(0.1);
     PORTA &= ~(1 << 1); 
 
     // Wait for pulse on echo pin
@@ -177,7 +185,7 @@ void loop() {
     readingRight = pulse_width_Right / 58.0;
 
     //Delay 60 milliseconds
-    delayMs(60000);
+    delay(0.1);
 
     // Check whether a wall is detected
     // 1: Wall is detected
@@ -231,4 +239,5 @@ void loop() {
             goForwardAndThenStop();
             break;
         }
+        */
 }
