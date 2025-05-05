@@ -115,13 +115,13 @@ void loop() {
     // Measure how long the echo pin was held high (pulse width)
     time1Front = micros();
     while (PINA & (1 << PINA0) == 1);
-    time2Front = micros();
-    pulse_width_Front = time2Front - time1Front;
+    time2Right = micros();
+    pulse_width_Right = time2Right - time1Right;
 
     // Calculate distance in centimeters. The constant
     // is found in the datasheet, and calculated from the assumed speed
     // of sound in air at sea level (~340 m/s).
-    readingFront = pulse_width_Front / 58.0;
+    readingRight = pulse_width_Right / 58.0;
 
     delayMs(60);
 
