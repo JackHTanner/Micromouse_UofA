@@ -25,9 +25,13 @@ unsigned long time2Right;
 unsigned long pulse_width_Right;
 float readingRight;
 
-void goForward() {
+
+void goForwardAndThenStop() {
     // Set motor to maximimum speed
     // Both wheels spin forward at max speed
+    delayS(2);
+    // Set motor to zero speed
+    // Wheels stop spinning
 }
 
 void orientLeft() {
@@ -51,10 +55,6 @@ void turnAround() {
     delayS(4);
 }
 
-void stop() {
-    // Set motor to zero speed
-    // Wheels stop spinning 
-}
 
 // Check whether wall is detected using threshold of 12 cm
 int wallDetection (float reading) {
@@ -103,7 +103,6 @@ void setup() {
     DDRA &= ~(1 << DDA0);
     // Enable pull-up resistor
     PORTA |= (1 << 0);
-
 }
 
 
@@ -116,7 +115,7 @@ void loop() {
     PORTL &= ~(1 << 3); 
 
     // Wait for pulse on echo pin
-    while ((PINL & (1 << PINL2)) == 0);
+    while ((PINL & (1 << PINL2)) == 0 );
 
     // Measure how long the echo pin was held high (pulse width)
     time1Left = micros();
@@ -129,7 +128,7 @@ void loop() {
     // of sound in air at sea level (~340 m/s).
     readingLeft = pulse_width_Left / 58.0;
 
-    // Delay 60 milliseconds
+    //Delay 60 milliseconds
     delayMs(60000);
 
     /**********Polling the front sensor**********/
@@ -140,7 +139,7 @@ void loop() {
     PORTC &= ~(1 << 1); 
 
     // Wait for pulse on echo pin
-    while ((PIND & (1 << PIND7)) == 0);
+    while ((PIND & (1 << PIND7)) == 0 );
 
     // Measure how long the echo pin was held high (pulse width)
     time1Front = micros();
@@ -153,7 +152,7 @@ void loop() {
     // of sound in air at sea level (~340 m/s).
     readingFront = pulse_width_Front / 58.0;
 
-    // Delay 60 milliseconds
+    //Delay 60 milliseconds
     delayMs(60000);
 
     /**********Polling the right sensor**********/
@@ -177,7 +176,7 @@ void loop() {
     // of sound in air at sea level (~340 m/s).
     readingRight = pulse_width_Right / 58.0;
 
-    // Delay 60 milliseconds
+    //Delay 60 milliseconds
     delayMs(60000);
 
     // Check whether a wall is detected
@@ -194,44 +193,42 @@ void loop() {
     // Default is for the mouse to stop.
     switch (walls) {
         case 0b000: // No walls detected. Go forward.
-          //  goForward();
+            goForwardAndThenStop();
             break;
         case 0b001: // Right wall detected. Orient left and go forward.
-          //  orientLeft();
+            orientLeft();
             delayMs(100);
-         //   goForward();
+            goForwardAndThenStop();
             break;
         case 0b010: // Front wall detected. Orient left and go forward.
-        //    orientLeft();
+            orientLeft();
             delayMs(100);
-      //      goForward();
+            goForwardAndThenStop();
             break;
         case 0b011: // Front and right walls detected. Orient left and go forward.
-    //        orientLeft();
+            orientLeft();
             delayMs(100);
-            goForward();
+            goForwardAndThenStop();
             break;
         case 0b100: // Left wall detected. Go forward.
-            goForward();
+            goForwardAndThenStop();
             delayMs(100);
             break;
         case 0b101: // Left and right walls detected. Go forward.
-            goForward();
+            goForwardAndThenStop();
             delayMs(100);
             break;
         case 0b110: // Left and front walls detected. Orient right and go forward.
-         //   orientRight();
+            orientRight();
             delayMs(100);
-            goForward();
+            goForwardAndThenStop();
             break;
         case 0b111: // Left, front, and right walls detetected. Turn around.
-         //   turnAround();
+            turnAround();
             delayMs(100);
             break;
         default:
-          //  stop();
+            goForwardAndThenStop();
             break;
-
         }
-    
 }
