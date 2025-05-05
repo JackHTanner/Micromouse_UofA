@@ -52,9 +52,9 @@ void loop() {
     time2Left = micros();
     pulse_width_Left = time2Left - time1Left;
 
-    // Calculate distance in centimeters and inches. The constants
-    // are found in the datasheet, and calculated from the assumed speed
-    //of sound in air at sea level (~340 m/s).
+    // Calculate distance in centimeters. The constant
+    // is found in the datasheet, and calculated from the assumed speed
+    // of sound in air at sea level (~340 m/s).
     readingLeft = pulse_width_Left / 58.0;
     
     delayMs(60);
@@ -85,9 +85,9 @@ void loop() {
     time2Front = micros();
     pulse_width_Front = time2Front - time1Front;
 
-    // Calculate distance in centimeters and inches. The constants
-    // are found in the datasheet, and calculated from the assumed speed
-    //of sound in air at sea level (~340 m/s).
+    // Calculate distance in centimeters. The constant
+    // is found in the datasheet, and calculated from the assumed speed
+    // of sound in air at sea level (~340 m/s).
     readingFront = pulse_width_Front / 58.0;
 
     delayMs(60);
@@ -118,9 +118,9 @@ void loop() {
     time2Front = micros();
     pulse_width_Front = time2Front - time1Front;
 
-    // Calculate distance in centimeters and inches. The constants
-    // are found in the datasheet, and calculated from the assumed speed
-    //of sound in air at sea level (~340 m/s).
+    // Calculate distance in centimeters. The constant
+    // is found in the datasheet, and calculated from the assumed speed
+    // of sound in air at sea level (~340 m/s).
     readingFront = pulse_width_Front / 58.0;
 
     delayMs(60);
