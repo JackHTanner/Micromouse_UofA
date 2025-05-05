@@ -15,6 +15,8 @@ void wakeUp();
 void displayAnimation();
 void setArraysToZero();
 
+void displaySolution(byte pathFrames[30][5][5]);
+
 extern byte matrix1[8];
 extern byte matrix2[8];
 extern byte matrix3[8];
