@@ -3,11 +3,10 @@
 
 void setup();
 void loop();
-void goForward();
+void goForwardAndThenStop();
 void orientLeft();
 void orientRight();
 void turnAround();
-void stop();
 int wallDetection(float reading);
 
 #endif
