@@ -68,6 +68,60 @@ void saveMazeFrame(int currentFrame) {
   }
 }
 
+
+// Sensor readings converted to booleans
+boolean leftWall, rightWall, frontWall;
+float sensorReadings[3];
+
+for(int i = 0; i < 2; i++) {
+  // Read in sensor values
+}
+
+
+if (sensorReadings[0] < 12.0 && sensorReadings[1] < 12.0 && sensorReadings[2] < 12.0) {
+  Serial.println("No walls detected");
+  leftWall = false;
+  frontWall = false;
+  rightWall = false;
+} else if (sensorReadings[0] < 12.0 && sensorReadings[1] < 12.0 && sensorReadings[2] >= 12.0) {
+  Serial.println("Right wall detected");
+  leftWall = false;
+  frontWall = false;
+  rightWall = true;
+} else if (sensorReadings[0] < 12.0 && sensorReadings[1] >= 12.0 && sensorReadings[2] < 12.0) {
+  Serial.println("Front wall detected");
+  leftWall = false;
+  frontWall = true;
+  rightWall = false;
+} else if (sensorReadings[0] < 12.0 && sensorReadings[1] >= 12.0 && sensorReadings[2] >= 12.0) {
+  Serial.println("Front and right walls detected");
+  leftWall = false;
+  frontWall = true;
+  rightWall = true;
+} else if (sensorReadings[0] >= 12.0 && sensorReadings[1] < 12.0 && sensorReadings[2] < 12.0) {
+  Serial.println("Left wall detected");
+  leftWall = true;
+  frontWall = false;
+  rightWall = false;
+} else if (sensorReadings[0] >= 12.0 && sensorReadings[1] < 12.0 && sensorReadings[2] >= 12.0) {
+  Serial.println("Left and right walls detcted");
+  leftWall = true;
+  frontWall = false;
+  rightWall = true;
+} else if (sensorReadings[0] >= 12.0 && sensorReadings[1] >= 12.0 && sensorReadings[2] < 12.0) {
+  Serial.println("Left and front walls detected");
+  leftWall = true;
+  frontWall = true;
+  rightWall = false;
+} else if (sensorReadings[0] >= 12.0 && sensorReadings[1] >= 12.0 && sensorReadings[2] >= 12.0) {
+  Serial.println("Left, front, and right walls detected");
+  leftWall = true;
+  frontWall = true;
+  rightWall = true;
+}
+
+
+
 int main () {
   Serial.begin(9600);
   Serial.flush();
