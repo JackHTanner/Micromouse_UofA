@@ -174,7 +174,7 @@ void displayAnimation() {
   matrix3[0] = 0x01;
   matrix4[7] = 0x01;
   updateDisplay();
-  delayMs(99999);
+  delayUs(99999);
   
   setArraysToZero();
   updateDisplay();
@@ -188,7 +188,7 @@ void displayAnimation() {
   matrix4[6] = 0x01;
   matrix4[7] = 0x02;
   updateDisplay();
-  delayMs(99999);
+  delayUs(99999);
   
   setArraysToZero();
   updateDisplay();
@@ -206,7 +206,7 @@ void displayAnimation() {
   matrix4[6] = 0x02;
   matrix4[7] = 0x04;
   updateDisplay();
-  delayMs(99999);
+  delayUs(99999);
   
   setArraysToZero();
   updateDisplay();
@@ -228,7 +228,7 @@ void displayAnimation() {
   matrix4[6] = 0x04;
   matrix4[7] = 0x08;
   updateDisplay();
-  delayMs(99999);
+  delayUs(99999);
   
   setArraysToZero();
   updateDisplay();
@@ -253,7 +253,7 @@ void displayAnimation() {
   matrix4[6] = 0x08;
   matrix4[7] = 0x10;
   updateDisplay();
-  delayMs(99999);
+  delayUs(99999);
   
   setArraysToZero();
   updateDisplay();
@@ -283,7 +283,7 @@ void displayAnimation() {
   matrix4[6] = 0x10;
   matrix4[7] = 0x20;
   updateDisplay();
-  delayMs(99999);
+  delayUs(99999);
   
   setArraysToZero();
   updateDisplay();
@@ -317,7 +317,7 @@ void displayAnimation() {
   matrix4[6] = 0x20;
   matrix4[7] = 0x40;
   updateDisplay();
-  delayMs(99999);
+  delayUs(99999);
   
   setArraysToZero();
   updateDisplay();
@@ -355,7 +355,7 @@ void displayAnimation() {
   matrix4[6] = 0x40;
   matrix4[7] = 0x80;
   updateDisplay();
-  delayMs(99999);
+  delayUs(99999);
   
   
   setArraysToZero();
@@ -390,7 +390,7 @@ void displayAnimation() {
   matrix4[6] = 0x40;
   matrix4[7] = 0x80;
   updateDisplay();
-  delayMs(99999);
+  delayUs(99999);
   
   setArraysToZero();
   updateDisplay();
@@ -420,7 +420,7 @@ void displayAnimation() {
   matrix4[6] = 0x40;
   matrix4[7] = 0x80;
   updateDisplay();
-  delayMs(99999);
+  delayUs(99999);
   
   setArraysToZero();
   updateDisplay();
@@ -446,7 +446,7 @@ void displayAnimation() {
   matrix4[6] = 0x40;
   matrix4[7] = 0x80;
   updateDisplay();
-  delayMs(99999);
+  delayUs(99999);
   
   setArraysToZero();
   updateDisplay();
@@ -468,7 +468,7 @@ void displayAnimation() {
   matrix4[6] = 0x40;
   matrix4[7] = 0x80;
   updateDisplay();
-  delayMs(99999);
+  delayUs(99999);
   
   setArraysToZero();
   updateDisplay();
@@ -486,7 +486,7 @@ void displayAnimation() {
   matrix4[6] = 0x40;
   matrix4[7] = 0x80;
   updateDisplay();
-  delayMs(99999);
+  delayUs(99999);
   
   setArraysToZero();
   updateDisplay();
@@ -500,7 +500,7 @@ void displayAnimation() {
   matrix4[6] = 0x40;
   matrix4[7] = 0x80;
   updateDisplay();
-  delayMs(99999);
+  delayUs(99999);
   
   setArraysToZero();
   updateDisplay();
@@ -510,7 +510,7 @@ void displayAnimation() {
   matrix3[0] = 0x80;
   matrix4[7] = 0x80;
   updateDisplay();
-  delayMs(99999);
+  delayUs(99999);
   
   setArraysToZero();
   updateDisplay();
@@ -527,7 +527,7 @@ void displaySolution(byte pathFrames[30][5][5]) {
     }
 
     updateDisplay();
-    delayMs(99999);
+    delayUs(99999);
   }
 }
 

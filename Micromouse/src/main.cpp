@@ -1,79 +1,134 @@
 #include <Arduino.h>
+#include <avr/io.h>
 #include "timer.h"
-//#include "PWM.h"
 #include "SPI.h"
 #include "Ultra.h"
 #include "Algorithm.h"
-#include <avr/io.h>
 #include <avr/interrupt.h>
-
 #include <Wire.h>
 #include "OPT3101A.h" 
 #include "TWI.h"
-
 
 // I²C address of your OPT3101 (A2–A0 = 000 → 0x58)
 #define OPT3101_I2C_ADDR  0x58
 
 OPT3101 sensor;  // your library’s default-address constructor
 
-void setup() {
-  Serial.begin(9600);
-  while (!Serial);
+  bool  getBoolLeft () {
+    float d_m = sensor.distanceMillimeters / 1000.0f;
+    sensor.setChannel(0);
+    sensor.readOutputRegs();
+    Serial.println(d_m);
+    return (d_m < 0.12) ? true : false;
+  }
+  
+  bool  getBoolFront () {
+    float d_m = sensor.distanceMillimeters / 1000.0f;
+    sensor.setChannel(1);
+    sensor.readOutputRegs();
+    Serial.println(d_m);
+    return (d_m < 0.12) ? true : false;
+  }
+  
+  bool  getBoolRight () {
+    float d_m = sensor.distanceMillimeters / 1000.0f;
+    sensor.setChannel(2);
+    sensor.readOutputRegs();
+    Serial.println(d_m);
+    return (d_m < 0.12) ? true : false;
+  }
+  
 
-  Wire.begin();
-  sensor.init();
-  sensor.resetAndWait();
-  sensor.configureDefault();
 
-  // Continuous mode @ 512 sub-frames (~130 ms/frame)
+int main () {
+
+init();    // Initialize the Arduino system
+Serial.begin(9600);
+Wire.begin();
+ sensor.init();
+ sensor.resetAndWait();
+ sensor.configureDefault();
+
+ //Continuous mode @ 512 sub-frames (~130 ms/frame)
   sensor.setContinuousMode();
   sensor.setFrameTiming(512);
   sensor.enableTimingGenerator();
 
-  Serial.println("OPT3101 ready (cycling TX0,TX1,TX2)");
+  bool leftVal;
+  bool frontVal;
+  bool rightVal;
+ 
+
+
+while (!Serial) { /* wait for USB Serial to connect */ }
+
+  //initTimer1();
+  //initTimer2();
+  //setupUltra();
+  initMAX7219();
+
+while(1) {
+
+  Serial.println("Looping...");
+
+  delay(100);
+
+leftVal = getBoolLeft();
+delay(150);
+frontVal = getBoolFront();
+delay(150);
+rightVal = getBoolRight();
+delay(150);
+
+Serial.println("Left: ");
+Serial.println(leftVal);
+Serial.println("Front: ");
+Serial.println(frontVal);
+Serial.println("Right: ");
+Serial.println(rightVal);
+
+delay(1000);
+}
+return 0;
 }
 
-void loop() {
-  static const char* names[3] = {
-    "Left (TX0)",
-    "Front (TX1)",
-    "Right (TX2)"
-  };
+ // delay(10);
 
-  for (uint8_t ch = 0; ch < 3; ch++) {
-    // 1) select channel
-    sensor.setChannel(1);
-    if (sensor.getLastError()) {
-      Serial.print("setChannel(");
-      Serial.print(ch);
-      Serial.print(") error: ");
-      Serial.println(sensor.getLastError());
-      continue;
-    }
 
-    // 2) wait for the next frame (~130 ms)
-    delay(150);
 
-    // 3) read out the most recent data
-    sensor.readOutputRegs();
-    if (sensor.getLastError()) {
-      Serial.print("readOutputRegs() error: ");
-      Serial.println(sensor.getLastError());
-      continue;
-    }
 
-    // 4) distance in meters
-    float d_m = sensor.distanceMillimeters / 1000.0f;
-    Serial.print(names[1]);
-    Serial.print(" dist: ");
-    Serial.print(d_m, 3);
-    Serial.println(" m");
-  }
+  
 
-  Serial.println("------------------------");
-  delay(500);
-}
+//Serial.println("Sensor initialized.");
+
+//delay(10);
+
+  //while (1) {
+
+ //  displayAnimation();
+
+ 
+
+//Serial.print("Left: ");
+  // delay(10);
+   /*
+
+
+   */
+
+   //delay(10);
+
+  //}
+
+  //displaySolution(mazeFrames);
+  //return 0;   
+  
+//}
+
+
+//
+
+/*
 
 
 int currentX = 1;
@@ -137,28 +192,8 @@ void saveMazeFrame(int currentFrame) {
   }
 }
 
-int main () {
-  Serial.begin(9600);
-  Serial.flush();
-  Serial.println("Starting.");
-  DDRC |= (1<<DDC4) | (1<<DDC5);
-  initTimer1();
-  initTimer2();
-  setupUltra();
-  initMAX7219();
-  byte walls;
+*/
 
-  Serial.println("Initialized maze successfully!");
-
-  while (1) {
-   displayAnimation();
-   
-  
-   walls = loopUltra();
-   Serial.println(walls);
-   
-   Serial.println("Walls set up.");
-  }
  /*  switch (walls) {
     case 0: // No walls detected. Go forward.
     
@@ -234,11 +269,7 @@ int main () {
     }
     //end while loop here
 */
- 
-  displaySolution(mazeFrames);
-  return 0;   
-  
-}
+
 
 
 

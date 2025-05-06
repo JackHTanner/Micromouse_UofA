@@ -1,5 +1,5 @@
-#include "timer.h"
-#include "PWM.h"
+/* #include "timer.h"
+
 #include "Arduino.h"
 
 unsigned long time1Left;
@@ -113,7 +113,7 @@ void setUpPins() {
 
 void loop() {
    /**********Polling the left sensor**********/
-
+/*
     // Hold the trigger pin high. Delay for 10 us. Then, hold trigger pin low.
     PORTL |= (1 << 3);
     delay(0.1);
@@ -140,7 +140,7 @@ void loop() {
     //Delay 60 milliseconds
     delay(0.1);
 
-    /*
+    
 
     /**********Polling the front sensor*********
 
@@ -242,5 +242,6 @@ void loop() {
             goForwardAndThenStop();
             break;
         }
-        */
+        
 }
+*/

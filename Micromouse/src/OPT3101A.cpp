@@ -3,6 +3,7 @@
 
 static const uint32_t reg80Default = 0x4e1e;
 
+
 void OPT3101::resetAndWait()
 {
   timingGeneratorEnabled = false;

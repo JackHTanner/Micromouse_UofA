@@ -66,7 +66,7 @@ distance2 = getDistance2();   //variable to store the distance measured by the s
   Serial.print(" Right cm");        //print units after the distance
   Serial.println("!");           //move to the next line for clarity
 
-  delayMs(10000);   //delay 50ms between each reading
+  delayUs(10000);   //delay 50ms between each reading
 
   if (distance0 < 5 && distance1 < 5 && distance2 < 5) {
     return 0b00000111; // All walls detected
@@ -103,7 +103,7 @@ float getDistance1()
   
   //send out an ultrasonic pulse that's 10ms long
   PORTC |= (1 << PC1);
-  delayMs(10000);
+  delayUs(10000);
   PORTC &= ~(1 << PC1);
 
   echoTime = pulseIn(38, HIGH);  // Add timeout to prevent freezing    //use the pulsein command to see how long it takes for the
@@ -124,7 +124,7 @@ float getDistance0()
   
   //send out an ultrasonic pulse that's 10ms long
   PORTL |= (1 << PL3);
-  delayMs(10000);
+  delayUs(10000);
   PORTL &= ~(1 << PL3);
 
   echoTime = pulseIn(47, HIGH);  // Add timeout to prevent freezing    //use the pulsein command to see how long it takes for the
@@ -145,7 +145,7 @@ float getDistance2()
   
   //send out an ultrasonic pulse that's 10ms long
   PORTA |= (1 << PA1);
-  delayMs(10000);
+  delayUs(10000);
   PORTA &= ~(1 << PA1);
 
 
