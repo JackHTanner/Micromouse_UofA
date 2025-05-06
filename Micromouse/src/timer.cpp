@@ -1,6 +1,22 @@
 #include "timer.h"
 #include <avr/io.h>
 
+void initTimer0(){
+    // Set Timer0 in CTC mode (Clear Timer on Compare Match)
+    TCCR0A &= ~(1 << WGM00);   // Clear WGM00 bit (to use CTC mode)
+    TCCR0A |= (1 << WGM01);    // Set WGM01 bit (to use CTC mode)
+    TCCR0B &= ~(1 << WGM02);   // Clear WGM02 bit (to use CTC mode)
+
+    // Set the prescaler to 64
+    TCCR0B |= (1 << CS00);     // Set CS00 bit to use a prescaler of 64
+    TCCR0B |= (1 << CS01);     // Set CS01 bit to use a prescaler of 64
+    TCCR0B &= ~(1 << CS02);    // Clear CS02 bit
+
+    // Set the Compare Match value (OCR0A) to generate an interrupt every 1 millisecond
+    OCR0A = 249;  // (16 MHz / 64 prescaler) * 1ms = 249
+}
+
+
 /* Initialize timer 1. Using CTC mode  .*/
 void initTimer1(){
     TCCR1B |= (1 << WGM12);
@@ -16,6 +32,31 @@ void initTimer2() {
     TCNT2 = 0;
 }
 
+/* This delays the program an amount of microsecond specified by unsigned int delay.
+* Used for timer 1. 
+*/
+void delayMs(unsigned int delay){
+    // Initialize the counter to 0
+    TCNT0 = 0;   // Reset Timer0 counter
+
+    // Clear the interrupt flag (if set from previous interrupts)
+    TIFR0 |= (1 << OCF0A);
+
+    // Use a loop to implement the delay
+    unsigned int delayCount = 0;
+    while (delayCount < delay) {
+        // Wait for the timer to reach the Compare Match value (OCR0A)
+        while (!(TIFR0 & (1 << OCF0A))) {  // Wait for OCF0A flag to be set
+            // Do nothing in the loop, just wait for interrupt
+        }
+        
+        // Clear the interrupt flag
+        TIFR0 |= (1 << OCF0A);
+        
+        // Increment the delay count
+        delayCount++;
+    }
+}
 
 /* This delays the program an amount of microsecond specified by unsigned int delay.
 * Used for timer 1. 
