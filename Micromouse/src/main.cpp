@@ -114,12 +114,6 @@ void updateDirection(int LeftorRight) { //Left = 0, Right = 1
       }
 }
 
-void initializeMotors() {
-  // Set the motor control pins as output
-  DDRC |= (1 << PC4) | (1 << PC5); // Set PC4 and PC5 as output for motor control
-  PORTC &= ~((1 << PC4) | (1 << PC5)); // Initialize motors to off state
-}
-
 
 void updatePosition() {
 if (currDirection == 0) { //North
@@ -147,17 +141,26 @@ void saveMazeFrame(int currentFrame) {
 
 
 int main () {
+  Serial.begin(9600);
+  Serial.flush();
+  Serial.println("Starting...");
+  initTimer0();
+  initTimer1();
+  initTimer2();
+  initMAX7219();
+  displayForwardAnimation();
+  Serial.println("Displaying forward animation.");
+    // displayLeftAnimation();
+  // displayRightAnimation();
 initMotorOutputs();
 
 init();    // Initialize the Arduino system
-Serial.begin(9600);
 Wire.begin();
 
  sensor.init();
  sensor.resetAndWait();
  sensor.configureDefault();
- initializeMotors();
- turnOnMotors();
+ //turnOnMotors();
  //Continuous mode @ 512 sub-frames (~130 ms/frame)
   sensor.setMonoshotMode();
   sensor.setFrameTiming(512);
@@ -183,7 +186,6 @@ while (!Serial) { /* wait for USB Serial to connect */ }
   //initTimer1();
   //initTimer2();
   //setupUltra();
-  initMAX7219();
 
 while(1) {
 
@@ -201,51 +203,53 @@ Serial.println(rightWall);
 
 if (leftWall == 0 && frontWall == 0 && rightWall == 0) { //if no walls are detected
   goForward();  //reminder: we need 0.635 of a rotation to advance one cell
-  //displayForwardAnimation();
+  displayForwardAnimation();
 }
 
 else if (leftWall == 0 && frontWall == 0 && rightWall == 1) { //right wall is detected
   orientLeft();
-  //displayLeftAnimation();
+  displayLeftAnimation();
   goForward();
- // displayForwardAnimation();
+  displayForwardAnimation();
 }
 
 else if (leftWall == 0 && frontWall == 1 && rightWall == 0) { //front wall is detected
   orientLeft();
- // displayLeftAnimation();
+  displayLeftAnimation();
   goForward();
-  //displayForwardAnimation();
+  displayForwardAnimation();
 }
 
 else if (leftWall == 0 && frontWall == 1 && rightWall == 1) { //front and right walls detected
   orientLeft();
-  //displayLeftAnimation();
+  displayLeftAnimation();
   goForward();
-  //displayForwardAnimation();
+  displayForwardAnimation();
 }
 
 else if (leftWall == 1 && frontWall == 0 && rightWall == 0) { //left wall is detected
   goForward();
-  //displayForwardAnimation();
+  displayForwardAnimation();
 }
 
 else if (leftWall == 1 && frontWall == 0 && rightWall == 1) { //left and right walls detected
   goForward();
- // displayForwardAnimation();
+displayForwardAnimation();
 }
 
 else if (leftWall == 1 && frontWall == 1 && rightWall == 0) { //left and front walls detected
   orientRight();
- // displayRightAnimation();
+ displayRightAnimation();
   goForward();
- // displayForwardAnimation();
+ displayForwardAnimation();
 }
 
 else if (leftWall == 1 && frontWall == 1 && rightWall == 1) { //dead end (all walls detected)
-  turnAround();
+  orientRight();
+  orientRight();
+  //turnAround();
   goForward();
- // displayForwardAnimation();
+ displayForwardAnimation();
 }
 
  leftWall = getBoolLeft();
@@ -255,8 +259,8 @@ else if (leftWall == 1 && frontWall == 1 && rightWall == 1) { //dead end (all wa
  rightWall = getBoolRight();
 
 
-//saveMazeFrame(currentStep);
-//currentStep++;
+// saveMazeFrame(currentStep);
+// currentStep++;
 
 
 delay(3000);
