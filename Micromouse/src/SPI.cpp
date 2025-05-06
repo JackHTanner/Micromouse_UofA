@@ -92,7 +92,7 @@ void sendDataToAll(byte address, byte data2, byte data1) {
   byte dataBytes[2] = {data2, data1};
   byte addrBytes[2] = {address, address};
 
-  // Send to all 4 modules (MSB first: module 2 first)
+  // Send to all modules (MSB first: module 2 first)
   for (byte m = 0; m < 2; m++) {
     // Send address
     for (byte i = 0; i < 8; i++) {
@@ -165,7 +165,7 @@ void displayForwardAnimation() { //Forward arrow animation, shown on both displa
   matrix1[7] = 0x01;
   matrix2[0] = 0x01;
   updateDisplay();
-  delayUs(99999);
+  delay(100);
   
   setArraysToZero();
   updateDisplay();
@@ -175,7 +175,7 @@ void displayForwardAnimation() { //Forward arrow animation, shown on both displa
   matrix2[0] = 0x02;
   matrix2[1] = 0x01;
   updateDisplay();
-  delayUs(99999);
+  delay(100);
   
   setArraysToZero();
   updateDisplay();
@@ -187,7 +187,7 @@ void displayForwardAnimation() { //Forward arrow animation, shown on both displa
   matrix2[1] = 0x02;
   matrix2[2] = 0x01;
   updateDisplay();
-  delayUs(99999);
+  delay(100);
   
   setArraysToZero();
   updateDisplay();
@@ -201,7 +201,7 @@ void displayForwardAnimation() { //Forward arrow animation, shown on both displa
   matrix2[2] = 0x02;
   matrix2[3] = 0x01;
   updateDisplay();
-  delayUs(99999);
+  delay(100);
   
   setArraysToZero();
   updateDisplay();
@@ -216,7 +216,7 @@ void displayForwardAnimation() { //Forward arrow animation, shown on both displa
   matrix2[3] = 0x02;
   matrix2[4] = 0x01;
   updateDisplay();
-  delayUs(99999);
+  delay(100);
   
   setArraysToZero();
   updateDisplay();
@@ -234,7 +234,7 @@ void displayForwardAnimation() { //Forward arrow animation, shown on both displa
   matrix2[4] = 0x02;
   matrix2[5] = 0x01;
   updateDisplay();
-  delayUs(99999);
+  delay(100);
   
   setArraysToZero();
   updateDisplay();
@@ -254,7 +254,7 @@ void displayForwardAnimation() { //Forward arrow animation, shown on both displa
   matrix2[5] = 0x02;
   matrix2[6] = 0x01;
   updateDisplay();
-  delayUs(99999);
+  delay(100);
   
   setArraysToZero();
   updateDisplay();
@@ -276,7 +276,7 @@ void displayForwardAnimation() { //Forward arrow animation, shown on both displa
   matrix2[6] = 0x02;
   matrix2[7] = 0x01;
   updateDisplay();
-  delayUs(99999);
+  delay(100);
   
   
   setArraysToZero();
@@ -297,7 +297,7 @@ void displayForwardAnimation() { //Forward arrow animation, shown on both displa
   matrix2[5] = 0x04;
   matrix2[6] = 0x02;
   updateDisplay();
-  delayUs(99999);
+  delay(100);
   
   setArraysToZero();
   updateDisplay();
@@ -315,7 +315,7 @@ void displayForwardAnimation() { //Forward arrow animation, shown on both displa
   matrix2[4] = 0x08;
   matrix2[5] = 0x04;
   updateDisplay();
-  delayUs(99999);
+  delay(100);
   
   setArraysToZero();
   updateDisplay();
@@ -331,7 +331,7 @@ void displayForwardAnimation() { //Forward arrow animation, shown on both displa
   matrix2[3] = 0x10;
   matrix2[4] = 0x08;
   updateDisplay();
-  delayUs(99999);
+  delay(100);
   
   setArraysToZero();
   updateDisplay();
@@ -345,7 +345,7 @@ void displayForwardAnimation() { //Forward arrow animation, shown on both displa
   matrix2[2] = 0x20;
   matrix2[3] = 0x10;
   updateDisplay();
-  delayUs(99999);
+  delay(100);
   
   setArraysToZero();
   updateDisplay();
@@ -357,7 +357,7 @@ void displayForwardAnimation() { //Forward arrow animation, shown on both displa
   matrix2[1] = 0x40;
   matrix2[2] = 0x20;
   updateDisplay();
-  delayUs(99999);
+  delay(100);
   
   setArraysToZero();
   updateDisplay();
@@ -367,7 +367,7 @@ void displayForwardAnimation() { //Forward arrow animation, shown on both displa
   matrix2[0] = 0x80;
   matrix2[1] = 0x40;
   updateDisplay();
-  delayUs(99999);
+  delay(100);
   
   setArraysToZero();
   updateDisplay();
@@ -375,7 +375,7 @@ void displayForwardAnimation() { //Forward arrow animation, shown on both displa
   matrix1[7] = 0x80;
   matrix2[0] = 0x80;
   updateDisplay();
-  delayUs(99999);
+  delay(100);
   
   setArraysToZero();
   updateDisplay();
@@ -440,7 +440,7 @@ void displayLeftAnimation() {
     matrix1[0] = arrowPattern[i + 15];
     if (i < 16) {
     updateDisplay();
-    delayUs(99999);
+    delay(100);
     updateDisplay();
     }
   }
@@ -448,7 +448,7 @@ void displayLeftAnimation() {
   for (int i = 4; i < 8; i++) {
     matrix2[i] = 0x00;
     updateDisplay();
-    delayUs(99999);
+    delay(100);
   }
 
 
@@ -515,7 +515,7 @@ void displayRightAnimation() {
     matrix2[7] = arrowPattern[i + 15];
     if (i < 16) {
       updateDisplay();
-      delayUs(99999);
+      delay(100);
       updateDisplay();
     }
   }
@@ -523,7 +523,7 @@ void displayRightAnimation() {
   for (int i = 4; i > -1; i--) {
     matrix1[i] = 0x00;
     updateDisplay();
-    delayUs(99999);
+    delay(100);
   }
 
   setArraysToZero();
@@ -541,7 +541,7 @@ void displaySolution(byte pathFrames[30][5][5]) { //show path taken by micormous
     }
 
     updateDisplay();
-    delayUs(99999);
+    delay(100);
   }
 }
 
