@@ -1,11 +1,80 @@
 #include <Arduino.h>
 #include "timer.h"
-#include "PWM.h"
+//#include "PWM.h"
 #include "SPI.h"
 #include "Ultra.h"
 #include "Algorithm.h"
 #include <avr/io.h>
 #include <avr/interrupt.h>
+
+#include <Wire.h>
+#include "OPT3101A.h" 
+#include "TWI.h"
+
+
+// I²C address of your OPT3101 (A2–A0 = 000 → 0x58)
+#define OPT3101_I2C_ADDR  0x58
+
+OPT3101 sensor;  // your library’s default-address constructor
+
+void setup() {
+  Serial.begin(9600);
+  while (!Serial);
+
+  Wire.begin();
+  sensor.init();
+  sensor.resetAndWait();
+  sensor.configureDefault();
+
+  // Continuous mode @ 512 sub-frames (~130 ms/frame)
+  sensor.setContinuousMode();
+  sensor.setFrameTiming(512);
+  sensor.enableTimingGenerator();
+
+  Serial.println("OPT3101 ready (cycling TX0,TX1,TX2)");
+}
+
+void loop() {
+  static const char* names[3] = {
+    "Left (TX0)",
+    "Front (TX1)",
+    "Right (TX2)"
+  };
+
+  for (uint8_t ch = 0; ch < 3; ch++) {
+    // 1) select channel
+    sensor.setChannel(1);
+    if (sensor.getLastError()) {
+      Serial.print("setChannel(");
+      Serial.print(ch);
+      Serial.print(") error: ");
+      Serial.println(sensor.getLastError());
+      continue;
+    }
+
+    // 2) wait for the next frame (~130 ms)
+    delay(150);
+
+    // 3) read out the most recent data
+    sensor.readOutputRegs();
+    if (sensor.getLastError()) {
+      Serial.print("readOutputRegs() error: ");
+      Serial.println(sensor.getLastError());
+      continue;
+    }
+
+    // 4) distance in meters
+    float d_m = sensor.distanceMillimeters / 1000.0f;
+    Serial.print(names[1]);
+    Serial.print(" dist: ");
+    Serial.print(d_m, 3);
+    Serial.println(" m");
+  }
+
+  Serial.println("------------------------");
+  delay(500);
+}
+
 
 int currentX = 1;
 int currentY = 0;
