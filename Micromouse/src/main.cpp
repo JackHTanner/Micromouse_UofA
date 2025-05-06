@@ -56,20 +56,21 @@ OPT3101 sensor;  // your library’s default-address constructor
     float d = takeDistanceMm(0);
     Serial.print("Left dist mm: ");
     Serial.println(d);
-    return d < 100;
+    return d < 150;
   }
 
   bool getBoolFront() {
     float d = takeDistanceMm(1);
     Serial.print("Front dist mm: ");
     Serial.println(d);
-    return d < 100;
+    return d < 150;
   }
   
   bool getBoolRight() {
     float d = takeDistanceMm(2);
-    Serial.print("Right dist mm: "); Serial.println(d);
-    return d < 100;
+    Serial.print("Right dist mm: ");
+     Serial.println(d);
+    return d < 150;
   }
   
 
@@ -246,15 +247,18 @@ else if (leftWall == 1 && frontWall == 1 && rightWall == 1) { //dead end (all wa
  // displayForwardAnimation();
 }
 
-bool leftWall = getBoolLeft();
-delay(150);
-bool frontWall = getBoolFront();
-delay(150);
-bool rightWall = getBoolRight();
-delay(150);
+ leftWall = getBoolLeft();
+
+ frontWall = getBoolFront();
+
+ rightWall = getBoolRight();
+
 
 //saveMazeFrame(currentStep);
 //currentStep++;
+
+
+delay(3000);
 
 }
 
