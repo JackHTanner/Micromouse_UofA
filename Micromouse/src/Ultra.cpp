@@ -96,7 +96,7 @@ distance2 = getDistance2();   //variable to store the distance measured by the s
 //RETURNS THE DISTANCE MEASURED BY THE HC-SR04 DISTANCE SENSOR
 
 
-int getDistance1()
+float getDistance1()
 {
   float echoTime = 0;                   //variable to store the time it takes for a ping to bounce off an object
   float calculatedDistance = 0;         //variable to store the distance calculated from the echo time
@@ -116,7 +116,7 @@ int getDistance1()
   return calculatedDistance;              //send back the distance that was calculated
 }
 
-int getDistance0()
+float getDistance0()
 {
   Serial.println("getDistance0() called"); // Debugging line to check if the function is being called
   float echoTime = 0;                   //variable to store the time it takes for a ping to bounce off an object
@@ -138,7 +138,7 @@ int getDistance0()
 }
 
 
-int getDistance2()
+float getDistance2()
 {
   float echoTime = 0;                   //variable to store the time it takes for a ping to bounce off an object
   float calculatedDistance = 0;         //variable to store the distance calculated from the echo time

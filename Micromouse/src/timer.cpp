@@ -20,7 +20,7 @@ void initTimer2() {
 /* This delays the program an amount of microsecond specified by unsigned int delay.
 * Used for timer 1. 
 */
-void delayMs(unsigned int delay){
+void delayUs(unsigned int delay){
     unsigned int delaycount = 0;
 
     TCNT1 = 0; // Start the timer at 0
