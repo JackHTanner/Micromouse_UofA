@@ -2,10 +2,6 @@
 #include "StepperMotors.h"
 #include "timer.h"
 
-void turnOnMotors() {
-    PORTC |= ((1 << PC4) | (1 << PC5)); // Turn on motors
-}
-
 void goForward() {     
      rightMotorForward();
      leftMotorForward(); 
