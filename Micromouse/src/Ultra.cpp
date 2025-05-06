@@ -51,14 +51,10 @@ void setupUltra()
 
 byte loopUltra() {
  
- // distance0 = getDistance0();   //variable to store the distance measured by the sensor
-  //distance1 = getDistance1();   //variable to store the distance measured by the sensor
-  //distance2 = getDistance2();   //variable to store the distance measured by the sensor
-
-  distance0 = 10000; 
-  distance1 = 12200;
-  distance2 = (distance0 + distance1) / 2; // Apply a correction factor to the distance measured by the sensor
-  Serial.print("Came so far"); //print the distance that was measured
+  distance0 = getDistance0();   //variable to store the distance measured by the sensor
+ distance1 = getDistance1();   //variable to store the distance measured by the sensor
+distance2 = getDistance2();   //variable to store the distance measured by the sensor
+ //print the distance that was measured
   Serial.print("Distance: "); //print the distance that was measured
   Serial.print(distance0);     //print the distance that was measured
   Serial.print(" left cm");        //print units after the distance
