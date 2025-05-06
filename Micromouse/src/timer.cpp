@@ -19,9 +19,17 @@ void initTimer0(){
 
 /* Initialize timer 1. Using CTC mode  .*/
 void initTimer1(){
-    TCCR1B |= (1 << WGM12);
+    // Set Timer1 to CTC mode
+    TCCR1B &= ~((1 << WGM13) | (1 << WGM11)); // Clear other WGM bits
+    TCCR1A &= ~((1 << WGM10) | (1 << WGM11));
+    TCCR1B |= (1 << WGM12); // CTC mode with OCR1A
+
+    // Set prescaler to 1 (no prescaling)
+    TCCR1B &= ~((1 << CS12) | (1 << CS11));
     TCCR1B |= (1 << CS10);
-    OCR1A = 15;
+
+    // Set Compare Match value for 1 µs delay
+    OCR1A = 15; // (16MHz / 1,000,000 Hz = 16 counts - 1 = 15)
 }
 
 void initTimer2() {
@@ -62,17 +70,11 @@ void delayMs(unsigned int delay){
 * Used for timer 1. 
 */
 void delayUs(unsigned int delay){
-    unsigned int delaycount = 0;
-
-    TCNT1 = 0; // Start the timer at 0
-    TIFR1 |= (1 << OCF1A); // Set the compare flag to start the timer 
-
-    while (delaycount < delay) {
-        // If timer has reached the max value of OCR1A,
-        // increment delaycount. 
-        if (TIFR1 & (1 << OCF1A)) {
-            delaycount++;
-            TIFR1 |= (1 << OCF1A); // Restart the timer
+    for (unsigned int i = 0; i < delay; i++) {
+        TCNT1 = 0;  // Reset timer counter
+        TIFR1 |= (1 << OCF1A);  // Clear match flag
+        while (!(TIFR1 & (1 << OCF1A))) {
+            // Wait until match occurs
         }
     }
 }

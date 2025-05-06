@@ -1,18 +1,18 @@
 #include <Arduino.h>
 #include <avr/io.h>
-#include "timer.h"
-#include "SPI.h"
-#include "StepperMotors.h"
-#include "Algorithm.h"
-#include <avr/interrupt.h>
+//#include "timer.h"
+//#include "SPI.h"
+//#include "StepperMotors.h"
+//#include "Algorithm.h"
+//#include <avr/interrupt.h>
 #include <Wire.h>
-#include "OPT3101A.h"
-#include "TWI.h"
+//#include "OPT3101A.h"
+//#include "TWI.h"
 
 // I²C address of your OPT3101 (A2–A0 = 000 → 0x58)
-#define OPT3101_I2C_ADDR  0x58
+//#define OPT3101_I2C_ADDR  0x58
 
-OPT3101 sensor;  // your library’s default-address constructor
+//OPT3101 sensor;  // your library’s default-address constructor
 
 
 /*
@@ -44,6 +44,7 @@ OPT3101 sensor;  // your library’s default-address constructor
   }
   
 */
+/*
   static float takeDistanceMm(uint8_t channel) {
     sensor.setChannel(channel);        // TX0,1,2 = left, front, right
     sensor.startSample();              // trigger one frame
@@ -72,8 +73,8 @@ OPT3101 sensor;  // your library’s default-address constructor
      Serial.println(d);
     return d < 150;
   }
-  
-
+  */
+/*
 
   //Eryc Setup function
   int currentX = 1;
@@ -138,33 +139,36 @@ void saveMazeFrame(int currentFrame) {
   }
 }
 
-
+*/
 
 int main () {
   Serial.begin(9600);
   Serial.flush();
-  Serial.println("Starting...");
-  initTimer0();
-  initTimer1();
-  initTimer2();
-  initMAX7219();
-  displayForwardAnimation();
-  Serial.println("Displaying forward animation.");
+  Serial.println("LStarting...");
+
+  //Serial.flush();
+  //Serial.println("Starting...");
+ // initTimer0();
+  //initTimer1();
+ // initTimer2();
+ // initMAX7219();
+ // displayForwardAnimation();
+ // Serial.println("Displaying forward animation.");
     // displayLeftAnimation();
   // displayRightAnimation();
-initMotorOutputs();
+//initMotorOutputs();
 
-init();    // Initialize the Arduino system
-Wire.begin();
+//init();    // Initialize the Arduino system
+//Wire.begin();
 
- sensor.init();
- sensor.resetAndWait();
- sensor.configureDefault();
+// sensor.init();
+ //sensor.resetAndWait();
+ //sensor.configureDefault();
  //turnOnMotors();
  //Continuous mode @ 512 sub-frames (~130 ms/frame)
-  sensor.setMonoshotMode();
-  sensor.setFrameTiming(512);
-  sensor.enableTimingGenerator();
+ // sensor.setMonoshotMode();
+ // sensor.setFrameTiming(512);
+ // sensor.enableTimingGenerator();
 /*
   bool leftWall = getBoolLeft();
 delay(150);
@@ -174,33 +178,33 @@ delay(150);
 delay(150);
 */
 
-bool leftWall  = getBoolLeft();
-  bool frontWall = getBoolFront();
-  bool rightWall = getBoolRight();
+//bool leftWall  = getBoolLeft();
+  //bool frontWall = getBoolFront();
+ // bool rightWall = getBoolRight();
  
  
 
 
-while (!Serial) { /* wait for USB Serial to connect */ }
+//while (!Serial) { /* wait for USB Serial to connect */ }
 
   //initTimer1();
   //initTimer2();
   //setupUltra();
 
-while(1) {
+//while(1) {
 
   Serial.println("Looping...");
 
-  delay(100);
+  //delay(100);
 
 
 Serial.println("Left: ");
-Serial.println(leftWall);
+//Serial.println(leftWall);
 Serial.println("Front: ");
-Serial.println(frontWall);
+//Serial.println(frontWall);
 Serial.println("Right: ");
-Serial.println(rightWall);
-
+//Serial.println(rightWall);
+/*
 if (leftWall == 0 && frontWall == 0 && rightWall == 0) { //if no walls are detected
   goForward();  //reminder: we need 0.635 of a rotation to advance one cell
   displayForwardAnimation();
@@ -261,14 +265,16 @@ else if (leftWall == 1 && frontWall == 1 && rightWall == 1) { //dead end (all wa
 
 // saveMazeFrame(currentStep);
 // currentStep++;
-
+*/
 
 delay(3000);
 
+return 0;
+
 }
 
-return 0;
-}
+
+
 
 
 

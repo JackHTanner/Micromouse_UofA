@@ -21,7 +21,7 @@ void rightMotorForward(){
     {1, 0, 0, 1}
     };
 
-while (1){
+for (int i = 0; i < 2601; i++){
     //CLOCKWISE:
     // IN4 (PL2)
     if (halfStepSeq[stepIndex][0] == 0){
@@ -70,7 +70,7 @@ void rightMotorReverse(){
     {1, 0, 0, 1}
     };
 
-      while (1){
+    for (int i = 0; i < 2601; i++){
     // COUNTER CLOCKWISE:
     // IN1 (PL5)
     if (halfStepSeq[stepIndex][0] == 0){
@@ -118,7 +118,7 @@ const uint8_t halfStepSeq[8][4] = {
   {1, 0, 0, 1}
 };
 
-while (1){
+for (int i = 0; i < 2601; i++){
     //CLOCKWISE:
     // IN1 (PG1) => pin 40
     if (halfStepSeq[stepIndex][0] == 0){
@@ -166,7 +166,7 @@ const uint8_t halfStepSeq[8][4] = {
   {0, 0, 0, 1},
   {1, 0, 0, 1}
 };
-while (1){
+for (int i = 0; i < 2601; i++){
     //COUNTER CLOCKWISE:
     // IN4 (PL6) => pin 43
     if (halfStepSeq[stepIndex][0] == 0){
