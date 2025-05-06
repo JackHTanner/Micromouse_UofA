@@ -148,6 +148,7 @@ void saveMazeFrame(int currentFrame) {
 
 int main () {
 initMotorOutputs();
+turnOnMotors();
 init();    // Initialize the Arduino system
 Serial.begin(9600);
 Wire.begin();
