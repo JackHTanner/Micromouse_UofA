@@ -13,6 +13,8 @@
 
 OPT3101 sensor;  // your library’s default-address constructor
 
+
+/*
   bool  getBoolLeft () {
     sensor.setChannel(0);
     delay(150);
@@ -40,7 +42,35 @@ OPT3101 sensor;  // your library’s default-address constructor
     return (d_m < 100) ? true : false;
   }
   
+*/
+  static float takeDistanceMm(uint8_t channel) {
+    sensor.setChannel(channel);        // TX0,1,2 = left, front, right
+    sensor.startSample();              // trigger one frame
+    while (!sensor.isSampleDone()) {}  // busy-wait until done
+    sensor.readOutputRegs();           // pull PHASE/AMP/etc.
+    return sensor.distanceMillimeters; // raw mm
+  }
 
+  bool getBoolLeft() {
+    float d = takeDistanceMm(0);
+    Serial.print("Left dist mm: ");
+    Serial.println(d);
+    return d < 100;
+  }
+
+  bool getBoolFront() {
+    float d = takeDistanceMm(1);
+    Serial.print("Front dist mm: ");
+    Serial.println(d);
+    return d < 100;
+  }
+  
+  bool getBoolRight() {
+    float d = takeDistanceMm(2);
+    Serial.print("Right dist mm: "); Serial.println(d);
+    return d < 100;
+  }
+  
 
 
   //Eryc Setup function
@@ -119,20 +149,27 @@ int main () {
 init();    // Initialize the Arduino system
 Serial.begin(9600);
 Wire.begin();
+
  sensor.init();
  sensor.resetAndWait();
  sensor.configureDefault();
  initializeMotors();
 
  //Continuous mode @ 512 sub-frames (~130 ms/frame)
-  sensor.setContinuousMode();
+  sensor.setMonoshotMode();
   sensor.setFrameTiming(512);
   sensor.enableTimingGenerator();
-
+/*
   bool leftWall = getBoolLeft();
- 
+delay(150);
   bool frontWall = getBoolFront();
+delay(150);
+  bool rightWall = getBoolRight();
+delay(150);
+*/
 
+bool leftWall  = getBoolLeft();
+  bool frontWall = getBoolFront();
   bool rightWall = getBoolRight();
  
  
@@ -161,51 +198,51 @@ Serial.println(rightWall);
 
 if (leftWall == 0 && frontWall == 0 && rightWall == 0) { //if no walls are detected
   goForward();  //reminder: we need 0.635 of a rotation to advance one cell
-  displayForwardAnimation();
+  //displayForwardAnimation();
 }
 
 else if (leftWall == 0 && frontWall == 0 && rightWall == 1) { //right wall is detected
   orientLeft();
-  displayLeftAnimation();
+  //displayLeftAnimation();
   goForward();
-  displayForwardAnimation();
+ // displayForwardAnimation();
 }
 
 else if (leftWall == 0 && frontWall == 1 && rightWall == 0) { //front wall is detected
   orientLeft();
-  displayLeftAnimation();
+ // displayLeftAnimation();
   goForward();
-  displayForwardAnimation();
+  //displayForwardAnimation();
 }
 
 else if (leftWall == 0 && frontWall == 1 && rightWall == 1) { //front and right walls detected
   orientLeft();
-  displayLeftAnimation();
+  //displayLeftAnimation();
   goForward();
-  displayForwardAnimation();
+  //displayForwardAnimation();
 }
 
 else if (leftWall == 1 && frontWall == 0 && rightWall == 0) { //left wall is detected
   goForward();
-  displayForwardAnimation();
+  //displayForwardAnimation();
 }
 
 else if (leftWall == 1 && frontWall == 0 && rightWall == 1) { //left and right walls detected
   goForward();
-  displayForwardAnimation();
+ // displayForwardAnimation();
 }
 
 else if (leftWall == 1 && frontWall == 1 && rightWall == 0) { //left and front walls detected
   orientRight();
-  displayRightAnimation();
+ // displayRightAnimation();
   goForward();
-  displayForwardAnimation();
+ // displayForwardAnimation();
 }
 
 else if (leftWall == 1 && frontWall == 1 && rightWall == 1) { //dead end (all walls detected)
   turnAround();
   goForward();
-  displayForwardAnimation();
+ // displayForwardAnimation();
 }
 
 bool leftWall = getBoolLeft();
