@@ -2,7 +2,6 @@
 #include <avr/io.h>
 #include "timer.h"
 #include "SPI.h"
-#include "Ultra.h"
 #include "Algorithm.h"
 #include <avr/interrupt.h>
 #include <Wire.h>
@@ -40,98 +39,8 @@ OPT3101 sensor;  // your library’s default-address constructor
   
 
 
-int main () {
-
-init();    // Initialize the Arduino system
-Serial.begin(9600);
-Wire.begin();
- sensor.init();
- sensor.resetAndWait();
- sensor.configureDefault();
-
- //Continuous mode @ 512 sub-frames (~130 ms/frame)
-  sensor.setContinuousMode();
-  sensor.setFrameTiming(512);
-  sensor.enableTimingGenerator();
-
-  bool leftVal;
-  bool frontVal;
-  bool rightVal;
- 
-
-
-while (!Serial) { /* wait for USB Serial to connect */ }
-
-  //initTimer1();
-  //initTimer2();
-  //setupUltra();
-  initMAX7219();
-
-while(1) {
-
-  Serial.println("Looping...");
-
-  delay(100);
-
-leftVal = getBoolLeft();
-delay(150);
-frontVal = getBoolFront();
-delay(150);
-rightVal = getBoolRight();
-delay(150);
-
-Serial.println("Left: ");
-Serial.println(leftVal);
-Serial.println("Front: ");
-Serial.println(frontVal);
-Serial.println("Right: ");
-Serial.println(rightVal);
-
-delay(1000);
-}
-return 0;
-}
-
- // delay(10);
-
-
-
-
-  
-
-//Serial.println("Sensor initialized.");
-
-//delay(10);
-
-  //while (1) {
-
- //  displayAnimation();
-
- 
-
-//Serial.print("Left: ");
-  // delay(10);
-   /*
-
-
-   */
-
-   //delay(10);
-
-  //}
-
-  //displaySolution(mazeFrames);
-  //return 0;   
-  
-//}
-
-
-//
-
-/*
-
-
-int currentX = 1;
+  //Eryc Setup function
+  int currentX = 1;
 int currentY = 0;
 
 int targetX = 0;
@@ -193,82 +102,114 @@ void saveMazeFrame(int currentFrame) {
 }
 
 
+
 int main () {
-  initTimer1();
-  initTimer2();
-  initMAX7219();
-  
-  //int currentStep = 0; //current step in the maze
-  
-  //displayAnimation();
-  //orientLeft();
-  //orientRight();
-  //initialize sensor data
+
+init();    // Initialize the Arduino system
+Serial.begin(9600);
+Wire.begin();
+ sensor.init();
+ sensor.resetAndWait();
+ sensor.configureDefault();
+
+ //Continuous mode @ 512 sub-frames (~130 ms/frame)
+  sensor.setContinuousMode();
+  sensor.setFrameTiming(512);
+  sensor.enableTimingGenerator();
+
   bool leftWall = getBoolLeft();
+  delay(150);
   bool frontWall = getBoolFront();
+  delay(150);
   bool rightWall = getBoolRight();
+  delay(150);
 
-  while (1) {
-    if (leftWall == 0 && frontWall == 0 && rightWall == 0) { //if no walls are detected
-      goForward();  //reminder: we need 0.635 of a rotation to advance one cell
-      displayForwardAnimation();
-    }
+ 
 
-    else if (leftWall == 0 && frontWall == 0 && rightWall == 1) { //right wall is detected
-      orientLeft();
-      displayLeftAnimation();
-      goForward();
-      displayForwardAnimation();
-    }
 
-    else if (leftWall == 0 && frontWall == 1 && rightWall == 0) { //front wall is detected
-      orientLeft();
-      displayLeftAnimation();
-      goForward();
-      displayForwardAnimation();
-    }
+while (!Serial) { /* wait for USB Serial to connect */ }
 
-    else if (leftWall == 0 && frontWall == 1 && rightWall == 1) { //front and right walls detected
-      orientLeft();
-      displayLeftAnimation();
-      goForward();
-      displayForwardAnimation();
-    }
+  //initTimer1();
+  //initTimer2();
+  //setupUltra();
+  initMAX7219();
 
-    else if (leftWall == 1 && frontWall == 0 && rightWall == 0) { //left wall is detected
-      goForward();
-      displayForwardAnimation();
-    }
+while(1) {
 
-    else if (leftWall == 1 && frontWall == 0 && rightWall == 1) { //left and right walls detected
-      goForward();
-      displayForwardAnimation();
-    }
+  Serial.println("Looping...");
 
-    else if (leftWall == 1 && frontWall == 1 && rightWall == 0) { //left and front walls detected
-      orientRight();
-      displayRightAnimation();
-      goForward();
-      displayForwardAnimation();
-    }
+  delay(100);
 
-    else if (leftWall == 1 && frontWall == 1 && rightWall == 1) { //dead end (all walls detected)
-      turnAround();
-      goForward();
-      displayForwardAnimation();
-    }
 
-    bool leftWall = getBoolLeft();
-    bool frontWall = getBoolFront();
-    bool rightWall = getBoolRight();
+Serial.println("Left: ");
+Serial.println(leftWall);
+Serial.println("Front: ");
+Serial.println(frontWall);
+Serial.println("Right: ");
+Serial.println(rightWall);
 
-  //saveMazeFrame(currentStep);
-  //currentStep++;
+if (leftWall == 0 && frontWall == 0 && rightWall == 0) { //if no walls are detected
+  goForward();  //reminder: we need 0.635 of a rotation to advance one cell
+  displayForwardAnimation();
+}
 
-  displaySolution(mazeFrames);
-  }
-  return 0;
+else if (leftWall == 0 && frontWall == 0 && rightWall == 1) { //right wall is detected
+  orientLeft();
+  displayLeftAnimation();
+  goForward();
+  displayForwardAnimation();
+}
 
+else if (leftWall == 0 && frontWall == 1 && rightWall == 0) { //front wall is detected
+  orientLeft();
+  displayLeftAnimation();
+  goForward();
+  displayForwardAnimation();
+}
+
+else if (leftWall == 0 && frontWall == 1 && rightWall == 1) { //front and right walls detected
+  orientLeft();
+  displayLeftAnimation();
+  goForward();
+  displayForwardAnimation();
+}
+
+else if (leftWall == 1 && frontWall == 0 && rightWall == 0) { //left wall is detected
+  goForward();
+  displayForwardAnimation();
+}
+
+else if (leftWall == 1 && frontWall == 0 && rightWall == 1) { //left and right walls detected
+  goForward();
+  displayForwardAnimation();
+}
+
+else if (leftWall == 1 && frontWall == 1 && rightWall == 0) { //left and front walls detected
+  orientRight();
+  displayRightAnimation();
+  goForward();
+  displayForwardAnimation();
+}
+
+else if (leftWall == 1 && frontWall == 1 && rightWall == 1) { //dead end (all walls detected)
+  turnAround();
+  goForward();
+  displayForwardAnimation();
+}
+
+bool leftWall = getBoolLeft();
+delay(150);
+bool frontWall = getBoolFront();
+delay(150);
+bool rightWall = getBoolRight();
+delay(150);
+
+//saveMazeFrame(currentStep);
+//currentStep++;
+
+}
+
+return 0;
 }
 
 
