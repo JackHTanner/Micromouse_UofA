@@ -70,106 +70,81 @@ void saveMazeFrame(int currentFrame) {
 
 
 int main () {
-  Serial.begin(9600);
-  Serial.flush();
-  Serial.println("Starting.");
-  DDRC |= (1<<DDC4) | (1<<DDC5);
   initTimer1();
   initTimer2();
-  setupUltra();
   initMAX7219();
-  byte walls;
-
-  Serial.println("Initialized maze successfully!");
+  
+  //int currentStep = 0; //current step in the maze
+  
+  //displayAnimation();
+  //orientLeft();
+  //orientRight();
+  //initialize sensor data
+  bool leftWall = getBoolLeft();
+  bool frontWall = getBoolFront();
+  bool rightWall = getBoolRight();
 
   while (1) {
-   displayAnimation();
-   
-  
-   walls = loopUltra();
-   Serial.println(walls);
-   
-   Serial.println("Walls set up.");
-  }
- /*  switch (walls) {
-    case 0: // No walls detected. Go forward.
-    
-    goForwardAndThenStop();
-    updatePosition();
-    displayAnimation();
-    break;
-    case 1: // Right wall detected. Orient left and go forward.
-    orientLeft();
-    updateDirection(0);
-    delayMs(100);
-    goForwardAndThenStop();
-    updatePosition();
-    displayAnimation();
-    break;
-  }
-}
-    case 2: // Front wall detected. Orient left and go forward.
-    orientLeft();
-    updateDirection(0);
-    delayMs(100);
-    goForwardAndThenStop();
-    updatePosition();
-    displayAnimation();
-    break;
-    case 3: // Front and right walls detected. Orient left and go forward.
-    orientLeft();
-    updateDirection(0);
-    delayMs(100);
-    goForwardAndThenStop();
-    updatePosition();
-    displayAnimation();
-    break;
-    case 4: // Left wall detected. Go forward.
-    goForwardAndThenStop();
-    updatePosition();
-    delayMs(100);
-    displayAnimation();
-    break;
-    case 5: // Left and right walls detected. Go forward.
-    Serial.println("Going forward");
-    goForwardAndThenStop();
-    updatePosition();
-    delayMs(100);
-    displayAnimation();
-    break;
-    case 6: // Left and front walls detected. Orient right and go forward.
-    orientRight();
-    updateDirection(1);
-    delayMs(100);
-    goForwardAndThenStop();
-    updatePosition();
-    displayAnimation();
-    break;
-    case 7: // Left, front, and right walls detetected. Turn around.
-    turnAround();
-    updateDirection(0);
-    updateDirection(0);
-    displayAnimation();
-		//update direction twice to simulate 2 left turns (180 degree turn)
-    delayMs(100);
-    break;
-    default:
-    goForwardAndThenStop();
-    break;
-    
-    mazePath[currentX][currentY] = 1;
-    saveMazeFrame(currentStep);
-    currentStep++;
-    
-    if (currentX == targetX && currentY == targetY) {
-      break;
+    if (leftWall == 0 && frontWall == 0 && rightWall == 0) { //if no walls are detected
+      goForward();  //reminder: we need 0.635 of a rotation to advance one cell
+      displayForwardAnimation();
     }
-    //end while loop here
-*/
- 
+
+    else if (leftWall == 0 && frontWall == 0 && rightWall == 1) { //right wall is detected
+      orientLeft();
+      displayLeftAnimation();
+      goForward();
+      displayForwardAnimation();
+    }
+
+    else if (leftWall == 0 && frontWall == 1 && rightWall == 0) { //front wall is detected
+      orientLeft();
+      displayLeftAnimation();
+      goForward();
+      displayForwardAnimation();
+    }
+
+    else if (leftWall == 0 && frontWall == 1 && rightWall == 1) { //front and right walls detected
+      orientLeft();
+      displayLeftAnimation();
+      goForward();
+      displayForwardAnimation();
+    }
+
+    else if (leftWall == 1 && frontWall == 0 && rightWall == 0) { //left wall is detected
+      goForward();
+      displayForwardAnimation();
+    }
+
+    else if (leftWall == 1 && frontWall == 0 && rightWall == 1) { //left and right walls detected
+      goForward();
+      displayForwardAnimation();
+    }
+
+    else if (leftWall == 1 && frontWall == 1 && rightWall == 0) { //left and front walls detected
+      orientRight();
+      displayRightAnimation();
+      goForward();
+      displayForwardAnimation();
+    }
+
+    else if (leftWall == 1 && frontWall == 1 && rightWall == 1) { //dead end (all walls detected)
+      turnAround();
+      goForward();
+      displayForwardAnimation();
+    }
+
+    bool leftWall = getBoolLeft();
+    bool frontWall = getBoolFront();
+    bool rightWall = getBoolRight();
+
+  //saveMazeFrame(currentStep);
+  //currentStep++;
+
   displaySolution(mazeFrames);
-  return 0;   
-  
+  }
+  return 0;
+
 }
 
 
