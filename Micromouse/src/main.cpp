@@ -60,7 +60,7 @@ if (currDirection == 0) { //North
       }
 }
 
-void saveMazeFrame(byte currentFrame) {
+void saveMazeFrame(int currentFrame) {
   for (int i = 0; i < 5; i++) {
     for (int j = 0; j < 5; j++) {
       mazeFrames[currentFrame][i][j] = mazePath[i][j];
@@ -156,10 +156,14 @@ int main () {
     goForwardAndThenStop();
     break;
     
-	  mazePath[currentX][currentY] = 1;
+    mazePath[currentX][currentY] = 1;
+    saveMazeFrame(currentStep);
+    currentStep++;
+    
     if (currentX == targetX && currentY == targetY) {
       break;
     }
+    //end while loop here
 */
  
   displaySolution(mazeFrames);
