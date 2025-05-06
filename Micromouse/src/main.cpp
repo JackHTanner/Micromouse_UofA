@@ -2,6 +2,7 @@
 #include <avr/io.h>
 #include "timer.h"
 #include "SPI.h"
+#include "StepperMotors.h"
 #include "Algorithm.h"
 #include <avr/interrupt.h>
 #include <Wire.h>
@@ -112,7 +113,7 @@ void saveMazeFrame(int currentFrame) {
 
 
 int main () {
-
+initMotorOutputs();
 init();    // Initialize the Arduino system
 Serial.begin(9600);
 Wire.begin();
