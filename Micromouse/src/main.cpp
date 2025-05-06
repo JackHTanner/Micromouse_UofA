@@ -14,27 +14,30 @@
 OPT3101 sensor;  // your library’s default-address constructor
 
   bool  getBoolLeft () {
-    float d_m = sensor.distanceMillimeters / 1000.0f;
     sensor.setChannel(0);
+    delay(150);
     sensor.readOutputRegs();
+    float d_m = sensor.distanceMillimeters;
     Serial.println(d_m);
-    return (d_m < 0.12) ? true : false;
+    return (d_m < 100) ? true : false;
   }
   
   bool  getBoolFront () {
-    float d_m = sensor.distanceMillimeters / 1000.0f;
-    sensor.setChannel(1);
+    sensor.setChannel(2);
+    delay(150);
     sensor.readOutputRegs();
+    float d_m = sensor.distanceMillimeters;
     Serial.println(d_m);
-    return (d_m < 0.12) ? true : false;
+    return (d_m < 100) ? true : false;
   }
   
   bool  getBoolRight () {
-    float d_m = sensor.distanceMillimeters / 1000.0f;
-    sensor.setChannel(2);
+    sensor.setChannel(1);
+    delay(150);
     sensor.readOutputRegs();
+    float d_m = sensor.distanceMillimeters;
     Serial.println(d_m);
-    return (d_m < 0.12) ? true : false;
+    return (d_m < 100) ? true : false;
   }
   
 
@@ -127,12 +130,11 @@ Wire.begin();
   sensor.enableTimingGenerator();
 
   bool leftWall = getBoolLeft();
-  delay(150);
+ 
   bool frontWall = getBoolFront();
-  delay(150);
-  bool rightWall = getBoolRight();
-  delay(150);
 
+  bool rightWall = getBoolRight();
+ 
  
 
 
