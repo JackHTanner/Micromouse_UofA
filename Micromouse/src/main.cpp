@@ -6,7 +6,7 @@
 #include "Algorithm.h"
 #include <avr/interrupt.h>
 #include <Wire.h>
-#include "OPT3101A.h" 
+#include "OPT3101A.h"
 #include "TWI.h"
 
 // I²C address of your OPT3101 (A2–A0 = 000 → 0x58)
