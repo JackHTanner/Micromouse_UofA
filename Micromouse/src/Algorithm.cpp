@@ -27,3 +27,17 @@ void orientRight() {
     
     delayMs(1000);
 }
+
+void turnAround () {
+    leftMotorForward();
+    rightMotorReverse();
+
+    Serial.println("Turning around");
+    
+    delayMs(1000);
+
+    leftMotorForward();
+    rightMotorReverse();
+
+    delayMs(1000);
+}
