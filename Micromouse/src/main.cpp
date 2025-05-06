@@ -148,7 +148,7 @@ void saveMazeFrame(int currentFrame) {
 
 int main () {
 initMotorOutputs();
-turnOnMotors();
+
 init();    // Initialize the Arduino system
 Serial.begin(9600);
 Wire.begin();
@@ -157,7 +157,7 @@ Wire.begin();
  sensor.resetAndWait();
  sensor.configureDefault();
  initializeMotors();
-
+ turnOnMotors();
  //Continuous mode @ 512 sub-frames (~130 ms/frame)
   sensor.setMonoshotMode();
   sensor.setFrameTiming(512);
