@@ -39,6 +39,7 @@ OPT3101 sensor;  // your library’s default-address constructor
   
 
 
+
   //Eryc Setup function
   int currentX = 1;
 int currentY = 0;
@@ -78,6 +79,13 @@ void updateDirection(int LeftorRight) { //Left = 0, Right = 1
       }
 }
 
+void initializeMotors() {
+  // Set the motor control pins as output
+  DDRC |= (1 << PC4) | (1 << PC5); // Set PC4 and PC5 as output for motor control
+  PORTC &= ~((1 << PC4) | (1 << PC5)); // Initialize motors to off state
+}
+
+
 void updatePosition() {
 if (currDirection == 0) { //North
         currentX--;
@@ -111,6 +119,7 @@ Wire.begin();
  sensor.init();
  sensor.resetAndWait();
  sensor.configureDefault();
+ initializeMotors();
 
  //Continuous mode @ 512 sub-frames (~130 ms/frame)
   sensor.setContinuousMode();
