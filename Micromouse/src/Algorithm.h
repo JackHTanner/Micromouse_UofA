@@ -9,6 +9,7 @@
 void goForward();
 void orientLeft();
 void orientRight();
+void turnAround();
 
 
 #endif
